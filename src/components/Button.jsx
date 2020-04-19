@@ -35,6 +35,9 @@ const Button = styled.button`
       case 'sm':
         return `
           height: 40px;
+          width: 100px;
+          position: relative;
+          align-self: center;
           padding: 0 28px;
           font-size: 16px;
         `;
