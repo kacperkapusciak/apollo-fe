@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 const QuestionCard = styled.div`
+  position: relative;
   width: 100%;
   padding: 32px;
   margin-bottom: 32px;
@@ -10,7 +11,7 @@ const QuestionCard = styled.div`
   box-shadow: ${({ theme }) => theme.shadow};
   
   &:last-child {
-  margin-bottom: 24px;
+    margin-bottom: 24px;
   }
 `;
 
