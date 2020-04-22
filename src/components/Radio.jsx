@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   cursor: pointer;
   user-select: none;
   border: 1px solid ${({ theme }) => theme.colors.neutral[700]};
-  border-radius: 4px;
+  border-radius: 50%;
   height: 16px;
   width: 16px;
   margin-right: 8px;
@@ -20,7 +20,7 @@ const Checkmark = styled.span`
   background-color: ${({ theme }) => theme.colors.accent[300]};
   display: ${({ checked }) => checked ? 'block' : 'none'};
   border: solid transparent;
-  border-radius: 2px;
+  border-radius: 50%;
 `;
 const Input = styled.input`
   position: absolute;
@@ -35,13 +35,13 @@ const Input = styled.input`
   }
 `;
 
-function Checkbox(props) {
+function Radio(props) {
   const { disabled, field = {} } = props;
 
   return (
     <Wrapper>
       <Input
-        type="checkbox"
+        type="radio"
         checked={field.value}
         disabled={disabled}
         {...field}
@@ -51,4 +51,4 @@ function Checkbox(props) {
   );
 };
 
-export default Checkbox;
+export default Radio;

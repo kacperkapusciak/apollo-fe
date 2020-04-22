@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
+    <defs>
+        <style>.a{fill:#adb5bd;}</style>
+    </defs>
+    <path class="a"
+          d="M5,5.909.909,10,0,9.091,4.091,5,0,.909.909,0,5,4.091,9.091,0,10,.909,5.909,5,10,9.091,9.091,10Z"/>
+</svg>
