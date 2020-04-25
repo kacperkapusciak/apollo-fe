@@ -41,7 +41,6 @@ function Poll(props) {
     value: '',
     options: [''],
     type: 'single',
-    text: ''
   });
 
   const initialValues = {

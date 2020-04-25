@@ -110,7 +110,7 @@ function Questions(props) {
                 />
               </InputRow>
               {question.type === 'text' ? (
-                <Textarea name={`questions.${qIndex}.text`} component="textarea"/>
+                <Textarea name={`questions.${qIndex}.text`} component="textarea" disabled/>
               ) : (
                 <FieldArray name={`questions.${qIndex}.options`}>
                   {optionsHelper => (
