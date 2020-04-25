@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     outline: none;
     box-sizing: border-box;
+    color: ${({ theme }) => theme.colors.neutral[700]};
   }
   
   html, body {
