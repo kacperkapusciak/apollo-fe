@@ -11,7 +11,7 @@ const ButtonWrapper = styled.div`
 const IconField = styled.div`
   height: 40px;
   width: 40px;
-  background: ${({ theme })  => theme.colors.primary[200]};
+  background: ${({ theme }) => theme.colors.primary[200]};
   border-radius: 50%;
   display: inline-block;
   align-self: center;
@@ -50,27 +50,27 @@ const URLfield = styled.div`
 `;
 
 function SharePoll(props) {
-    const {closeModal} = props;
-    let location = useLocation();
+  const { closeModal } = props;
+  let location = useLocation();
 
-    return (
-        <>
-            <IconField><Icon src={ShareIcon}/></IconField>
-            <Header>Udostępnij ankietę innym</Header>
-            <Content>Aby udostępnić ankietę po prostu skopiuj i prześlij ten link:</Content>
-            <URLfield>{location.pathname}</URLfield>
-            <Footer>Psst! Nie zapomnij przekazać także kodu PIN: 2137</Footer>
-            <ButtonWrapper>
-                <Button
-                    btnType="primary"
-                    size="sm"
-                    onClick={closeModal}
-                >
-                    gotowe
-                </Button>
-            </ButtonWrapper>
-        </>
-    );
+  return (
+    <>
+      <IconField><Icon src={ShareIcon}/></IconField>
+      <Header>Udostępnij ankietę innym</Header>
+      <Content>Aby udostępnić ankietę po prostu skopiuj i prześlij ten link:</Content>
+      <URLfield>{location.pathname}</URLfield>
+      <Footer>Psst! Nie zapomnij przekazać także kodu PIN: 2137</Footer>
+      <ButtonWrapper>
+        <Button
+          btnType="primary"
+          size="sm"
+          onClick={closeModal}
+        >
+          gotowe
+        </Button>
+      </ButtonWrapper>
+    </>
+  );
 }
 
 export default SharePoll;
