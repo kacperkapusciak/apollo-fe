@@ -1,6 +1,44 @@
 {
   "init": {
-    "pin": 2137,
+    "pinUser": 2137,
+    "pinCreator": 6969,
     "url": "cute-little-beaver"
+  },
+  "poll": {
+    "questions": [
+      {
+        "id": "689ef100-d5d5-4ed4-80da-d18165ae1003",
+        "value": "Pytanie pierwsze",
+        "options": [
+          "Owca",
+          "Lama",
+          "Alpaka"
+        ],
+        "type": "single"
+      },
+      {
+        "id": "f9674ec9-561d-469b-9a4d-94837ff81acc",
+        "value": "Pytanie drugie",
+        "options": [
+          "Owca",
+          "Lama",
+          "Alpaka"
+        ],
+        "type": "multi"
+      },
+      {
+        "id": "c67006dd-9606-42a9-bbea-b6074c93120b",
+        "value": "Pytanie trzecie",
+        "options": [
+          ""
+        ],
+        "type": "text"
+      }
+    ],
+    "settings": {
+      "requireSignature": true,
+      "resultsAccess": "everyone",
+      "expire": null
+    }
   }
 }
