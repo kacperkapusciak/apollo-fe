@@ -1,33 +1,29 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
-import Button from "../components/Button";
+
+import Button from "components/Button";
 import ShareIcon from 'assets/SharePollIcon.svg';
 
 const ButtonWrapper = styled.div`
- margin: 0 auto;
+  margin: 0 auto;
 `;
-
-
 const IconField = styled.div`
-  height: 54px;
-  width: 54px;
-  background: #F5DFBD 0% 0% no-repeat padding-box;
+  height: 40px;
+  width: 40px;
+  background: ${({ theme })  => theme.colors.primary[200]};
   border-radius: 50%;
   display: inline-block;
   align-self: center;
   margin-bottom: 8px;
 `;
-
-
 const Icon = styled.img`
-  height: 24px;
-  width: 24px;
   position: relative;
-  left: 15px;
-  top: 15px;
+  height: 16px;
+  width: 16px;
+  left: 12px;
+  top: 10px;
 `;
-
 const Header = styled.h5`
   text-align: center;
   font-weight: normal;
@@ -54,27 +50,27 @@ const URLfield = styled.div`
 `;
 
 function SharePoll(props) {
-    const {closeModal} = props;
-    let location = useLocation();
+  const { closeModal } = props;
+  let location = useLocation();
 
-    return (
-        <>
-            <IconField><Icon src={ShareIcon}/></IconField>
-            <Header>Udostępnij ankietę innym</Header>
-            <Content>Aby udostępnić ankietę po prostu skopiuj i prześlij ten link:</Content>
-            <URLfield>{location.pathname}</URLfield>
-            <Footer>Psst! Nie zapomnij przekazać także kodu PIN: 2137</Footer>
-            <ButtonWrapper>
-                <Button
-                    btnType="primary"
-                    size="sm"
-                    onClick={closeModal}
-                >
-                    gotowe
-                </Button>
-            </ButtonWrapper>
-        </>
-    );
+  return (
+    <>
+      <IconField><Icon src={ShareIcon}/></IconField>
+      <Header>Udostępnij ankietę innym</Header>
+      <Content>Aby udostępnić ankietę po prostu skopiuj i prześlij ten link:</Content>
+      <URLfield>{location.pathname}</URLfield>
+      <Footer>Psst! Nie zapomnij przekazać także kodu PIN: 2137</Footer>
+      <ButtonWrapper>
+        <Button
+          btnType="primary"
+          size="sm"
+          onClick={closeModal}
+        >
+          gotowe
+        </Button>
+      </ButtonWrapper>
+    </>
+  );
 }
 
 export default SharePoll;
