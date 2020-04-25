@@ -11,7 +11,7 @@ const ButtonWrapper = styled.div`
 const IconField = styled.div`
   height: 40px;
   width: 40px;
-  background: ${({ theme })  => theme.colors.primary[200]};
+  background: ${({ theme }) => theme.colors.primary[200]};
   border-radius: 50%;
   display: inline-block;
   align-self: center;
