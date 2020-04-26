@@ -83,6 +83,7 @@ const Textarea = styled(Field)`
   height: 96px;
   width: 512px;
   resize: none;
+  padding: 10px 10px 0px 8px;
 `;
 
 function Questions(props) {
@@ -163,3 +164,4 @@ function Questions(props) {
 }
 
 export default Questions;
+export { InputRow, OptionWrapper, Textarea };
