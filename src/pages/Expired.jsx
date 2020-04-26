@@ -1,48 +1,63 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom'
 import styled from 'styled-components';
-import { Form, Formik } from 'formik';
-import HistoryIcon from 'assets/history.svg';
+import { useHistory } from "react-router-dom";
 
+import HistoryIcon from 'assets/history.svg';
 import Navigation from 'components/Navigation';
 
 import { withModal } from 'providers/ModalProvider';
+import Button from "../components/Button";
+import Container from "../components/Container";
 
-const FormStyled = styled(Form)`
-  display: flex;
-`;
 
 const IconField = styled.div`
-  height: 40px;
-  width: 40px;
+  height: 80px;
+  width: 80px;
   background: ${({ theme }) => theme.colors.primary[200]};
   border-radius: 50%;
   display: inline-block;
   align-self: center;
-  margin-bottom: 8px;
+  margin-bottom: 45px;
 `;
+
 const Icon = styled.img`
-  height: 24px;
-  width: 24px;
+  height: 40px;
+  width: 50px;
   position: relative;
-  left: 10px;
-  top: 8px;
+  left: 13px;
+  top: 20px;
 `;
+
+const Wrapper = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 512px;
+`;
+
+const Text = styled.p`
+  font-size: 28px;
+  margin-bottom: 64px;
+`
 
 
 function Expired(props) {
-  const location = useLocation();
-  const { modal } = props;
-
-  useEffect(() => {
-    // modal.open(<ExpiredInfo/>)
-  }, []);
+  const history = useHistory();
 
   return (
     <>
-      <Navigation isCreator={ false }/>
-      <IconField><Icon src={HistoryIcon}/></IconField>
-      <div>Ankieta wygasła lub została usunięta</div>
+      <Navigation isCreator={false}/>
+      <Wrapper size='sm'>
+        <IconField><Icon src={HistoryIcon}/></IconField>
+        <Text>Ankieta wygasła lub została usunięta</Text>
+        <Button
+          btnType="secondary"
+          onClick={() => history.push("/")}
+          size="sm"
+        >
+          Wróc do strony głównej
+        </Button>
+      </Wrapper>
     </>
   );
 }

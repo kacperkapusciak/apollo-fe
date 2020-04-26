@@ -25,8 +25,8 @@ function DeletePoll(props) {
       <Wrapper>
         <Button btnType="tertiary" onClick={ closeModal } size="sm">Anuluj</Button>
         <Button btnType="primary" size="sm" onClick={ () => {
-          history.push("/expired");
           closeModal();
+          history.push("/expired");
         } }>Usuń</Button>
       </Wrapper>
     </>
