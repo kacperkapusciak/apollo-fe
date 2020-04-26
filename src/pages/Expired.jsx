@@ -23,8 +23,8 @@ function Expired(props) {
 
   return (
     <>
-      <Navigation isCreator={false}/>
-      <div>User</div>
+      <Navigation isCreator={ false }/>
+      <div>Ankieta wygasła lub została usunięta</div>
     </>
   );
 }
