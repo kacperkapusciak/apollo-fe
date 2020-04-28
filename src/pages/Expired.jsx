@@ -2,13 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
 
-import HistoryIcon from 'assets/history.svg';
 import Navigation from 'components/Navigation';
-
-import { withModal } from 'providers/ModalProvider';
-import Button from "../components/Button";
-import Container from "../components/Container";
-
+import Button from 'components/Button';
+import Container from 'components/Container';
+import HistoryIcon from 'assets/history.svg';
 
 const IconField = styled.div`
   height: 80px;
@@ -19,7 +16,6 @@ const IconField = styled.div`
   align-self: center;
   margin-bottom: 45px;
 `;
-
 const Icon = styled.img`
   height: 40px;
   width: 50px;
@@ -27,7 +23,6 @@ const Icon = styled.img`
   left: 13px;
   top: 20px;
 `;
-
 const Wrapper = styled(Container)`
   display: flex;
   flex-direction: column;
@@ -35,12 +30,10 @@ const Wrapper = styled(Container)`
   justify-content: center;
   height: 512px;
 `;
-
 const Text = styled.p`
   font-size: 28px;
   margin-bottom: 64px;
-`
-
+`;
 
 function Expired(props) {
   const history = useHistory();
@@ -56,7 +49,7 @@ function Expired(props) {
           onClick={() => history.push("/")}
           size="sm"
         >
-          Wróc do strony głównej
+          Wróć do strony głównej
         </Button>
       </Wrapper>
     </>
@@ -64,4 +57,4 @@ function Expired(props) {
 }
 
 
-export default withModal(Expired);
+export default Expired;

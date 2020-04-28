@@ -22,7 +22,6 @@ const FormStyled = styled(Form)`
   display: flex;
 `;
 
-
 function Poll(props) {
   const location = useLocation();
   const { modal } = props;
