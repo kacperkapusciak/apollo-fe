@@ -9,6 +9,7 @@ import theme from 'styles/theme';
 
 const Landing = lazy(() => import('pages/Landing'));
 const Poll = lazy(() => import('pages/Poll'));
+const Expired = lazy(() => import('pages/Expired'));
 
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <Landing setNewPollInfo={setNewPollInfo}/>
+              </Route>
+              <Route exact path="/expired">
+                <Expired />
               </Route>
               <Route path="/:pollUrl">
                 <Poll pin={pin}/>

@@ -1,7 +1,8 @@
 import React from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
-import Button from "components/Button";
+import Button from 'components/Button';
 
 const Wrapper = styled.nav`
   display: flex;
@@ -17,13 +18,20 @@ const Header = styled.h5`
 
 function DeletePoll(props) {
   const { closeModal } = props;
+  const history = useHistory();
+
+  function deletePoll() {
+    // TODO: request backend to set poll as expired
+    closeModal();
+    history.push("/expired");
+  }
 
   return (
     <>
       <Header>Czy na pewno chcesz usunąć ankietę?</Header>
       <Wrapper>
         <Button btnType="tertiary" onClick={closeModal} size="sm">Anuluj</Button>
-        <Button btnType="primary" size="sm">Usuń</Button>
+        <Button btnType="primary" onClick={deletePoll} size="sm">Usuń</Button>
       </Wrapper>
     </>
   );
