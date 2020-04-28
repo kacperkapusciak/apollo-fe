@@ -3,10 +3,11 @@ import { useLocation } from 'react-router-dom'
 import styled from 'styled-components';
 import { Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
+
 import axios from 'axios-instance';
+
 import Navigation from 'components/Navigation';
-import PollInfo from "modals/PollInfo";
-import Container from "../components/Container";
+import Container from 'components/Container';
 
 import Questions from './Poll/Questions';
 import Answers from './Poll/Answers'
@@ -55,12 +56,12 @@ function Poll(props) {
   useEffect(() => {
     // modal.open(<PollInfo/>)
     async function loadQuestions() {
-      const {data} = await axios.get('poll');
-      if (data){
+      const { data } = await axios.get('poll');
+      if (data) {
         setQuestions(data);
       }
-     //console.log(questions.questions)
     }
+
     loadQuestions()
   }, []);
 
@@ -77,8 +78,7 @@ function Poll(props) {
           {({ values }) => (
             <FormStyled>
               <Layout>
-                <Settings />
-                {console.log(JSON.stringify(values, undefined, 2))}
+                <Settings/>
                 <Questions
                   defaultQuestion={defaultQuestion}
                   values={values}
@@ -89,19 +89,17 @@ function Poll(props) {
         </Formik>
       ) : (
         <Formik
-            initialValues={questions}
-            onSubmit={values => console.log(values)}
-            enableReinitialize
+          initialValues={questions}
+          onSubmit={values => console.log(values)}
+          enableReinitialize
         >
           {({ values }) => (
-              <FormStyled>
-                <Container size="sm">
-                  {console.log(JSON.stringify(values, undefined, 2))}
-                  <Answers
-                      values={values}
-                  />
-                </Container>
-              </FormStyled>
+            <FormStyled>
+              <Container size="sm">
+                {console.log(JSON.stringify(values, undefined, 2))}
+                <Answers values={values}/>
+              </Container>
+            </FormStyled>
           )}
         </Formik>
       )}
