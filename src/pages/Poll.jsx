@@ -65,11 +65,29 @@ function Poll(props) {
     loadQuestions()
   }, []);
 
+  const formatAnswers = (values) => {
+    let output = {}
+    let answers = [];
+    for (const question in values.answers){
+      let options = {}
+      options.id = question
+      options.value = []
+      if (typeof values.answers[question] == "string")
+        options.value.push(values.answers[question])
+      else for(const answer in values.answers[question]) {
+        if(values.answers[question][answer] == true) options.value.push(answer)
+      }
+      answers.push(options)
+    }
+    output.answers = answers
+    output.signature = values.signature
+    return JSON.stringify(output, undefined, 2)
+  };
 
   return (
     <>
       <Navigation isCreator={isCreator}/>
-      {isCreator ? (
+      {!isCreator ? (
         <Formik
           initialValues={initialValues}
           onSubmit={values => {
@@ -90,13 +108,16 @@ function Poll(props) {
       ) : (
         <Formik
           initialValues={questions}
-          onSubmit={values => console.log(values)}
+          onSubmit={values => {
+            const formattedAnswers = formatAnswers(values);
+            console.log(formattedAnswers);
+          }}
           enableReinitialize
         >
           {({ values }) => (
             <FormStyled>
               <Container size="sm">
-                {console.log(JSON.stringify(values, undefined, 2))}
+                {console.log(JSON.stringify(values.answers, undefined, 2))}
                 <Answers values={values}/>
               </Container>
             </FormStyled>

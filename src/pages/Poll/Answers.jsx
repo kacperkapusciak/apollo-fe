@@ -46,6 +46,7 @@ const Answer = styled.div`
 function Answers(props) {
   const { values } = props;
   const { questions, settings } = values;
+
   return (
     <FieldArray name="questions">
       <div>
@@ -54,9 +55,9 @@ function Answers(props) {
             <Head>{question.value}</Head>
             {question.type === 'text' ? (
               <Textarea
-                name={`questions.${qIndex}.text`}
+                name={`answers.${question.id}`}
                 component="textarea"
-                placeholder="Możesz tutaj opisać co dręczy twoją duszę własnymi słowami..."
+                placeholder="Wpisz swoją odpowiedź..."
               />
             ) : (
               <FieldArray name={`questions.${qIndex}.options`}>
@@ -64,11 +65,12 @@ function Answers(props) {
                   {question.options.map((option, oIndex) => (
                     <OptionRow key={`question-row-${oIndex}`}>
                       {question.type === 'multi' ? (
-                        <Field name={`cb${qIndex}-${oIndex}`}>
+                        <Field name={`answers.${question.id}.${option}`}>
                           {({ field }) => <Checkbox field={field}/>}
+                          {/*{({ field }) => {values.answer = field}}*/}
                         </Field>
                       ) : question.type === 'single' ? (
-                        <Field name={`rd${qIndex}-${oIndex}`}>
+                        <Field name={`answers.${question.id}.${option}`}>
                           {({ field }) => <Radio field={field}/>}
                         </Field>
                       ) : null}
