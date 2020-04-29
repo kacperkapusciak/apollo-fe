@@ -80,8 +80,12 @@ function Answers(props) {
             )}
           </Card>
         ))}
-        <Name>imie i nazwisko</Name>
-        <InputRow><Input name='username'/></InputRow>
+        {settings.requireSignature && (
+          <>
+            <Name>imie i nazwisko</Name>
+            <InputRow><Input name='signature'/></InputRow>
+          </>
+        )}
         <ButtonWrapper>
           <Button
             btnType="secondary"
