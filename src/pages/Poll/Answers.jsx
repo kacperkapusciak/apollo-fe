@@ -45,11 +45,11 @@ const Answer = styled.div`
 
 function Answers(props) {
   const { values } = props;
-
+  const { questions, settings } = values;
   return (
     <FieldArray name="questions">
       <div>
-        {values.questions.map((question, qIndex) => (
+        {questions.map((question, qIndex) => (
           <Card key={qIndex}>
             <Head>{question.value}</Head>
             {question.type === 'text' ? (
