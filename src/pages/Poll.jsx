@@ -29,7 +29,7 @@ const FormStyled = styled(Form)`
 const defaultQuestion = () => ({
   id: uuidv4(),
   value: '',
-  options: [],
+  options: [''],
   type: 'multi',
 });
 
