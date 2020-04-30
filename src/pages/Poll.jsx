@@ -84,7 +84,7 @@ function Poll(props) {
   return (
     <>
       <Navigation isCreator={isCreator}/>
-      {!isCreator ? (
+      {isCreator ? (
         <Formik
           initialValues={initialValues}
           onSubmit={values => {
