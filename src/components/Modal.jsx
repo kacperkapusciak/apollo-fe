@@ -31,7 +31,7 @@ const ContentWrapper = styled.div`
 `;
 
 function Modal(props) {
-  const { children, isOpen, onClose } = props;
+  const { children, isOpen, onClose, backdropCloses } = props;
 
   function closeModal () {
     onClose && onClose();
@@ -39,7 +39,7 @@ function Modal(props) {
 
   function onBackdropClick (e) {
     if (e.target === e.currentTarget) {
-      closeModal();
+      backdropCloses && closeModal();
     }
   }
 
