@@ -1,21 +1,21 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-
 import { ModalProvider } from 'providers/ModalProvider';
+import { withAuth } from 'providers/AuthProvider';
+
 import GlobalStyle from 'styles/global';
 import theme from 'styles/theme';
 
+const Dummy = lazy(() => import('pages/Dummy'));
 const Landing = lazy(() => import('pages/Landing'));
 const Poll = lazy(() => import('pages/Poll'));
 const Expired = lazy(() => import('pages/Expired'));
 
 
-function App() {
-  const [newPollInfo, setNewPollInfo] = useState({});
-
-  const { pin } = newPollInfo;
+function App(props) {
+  const { auth } = props;
 
   return (
     <ThemeProvider theme={theme}>
@@ -23,14 +23,10 @@ function App() {
         <ModalProvider>
           <Suspense fallback={<div>Loading...</div>}>
             <Switch>
-              <Route exact path="/">
-                <Landing setNewPollInfo={setNewPollInfo}/>
-              </Route>
-              <Route exact path="/expired">
-                <Expired />
-              </Route>
+              <Route exact path="/" component={Landing}/>
+              <Route exact path="/expired" component={Expired}/>
               <Route path="/:pollUrl">
-                <Poll pin={pin}/>
+                {auth.isAuthenticated ? <Poll/> : <Dummy/>}
               </Route>
             </Switch>
             <GlobalStyle/>
@@ -42,4 +38,4 @@ function App() {
 }
 
 
-export default App;
+export default withAuth(App);
