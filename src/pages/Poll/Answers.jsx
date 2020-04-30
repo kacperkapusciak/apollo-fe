@@ -44,7 +44,7 @@ const Answer = styled.div`
 `;
 
 function Answers(props) {
-  const { values } = props;
+  const { values, setFieldValue } = props;
   const { questions, settings } = values;
 
   return (
@@ -67,11 +67,10 @@ function Answers(props) {
                       {question.type === 'multi' ? (
                         <Field name={`answers.${question.id}.${option}`}>
                           {({ field }) => <Checkbox field={field}/>}
-                          {/*{({ field }) => {values.answer = field}}*/}
                         </Field>
                       ) : question.type === 'single' ? (
-                        <Field name={`answers.${question.id}.${option}`}>
-                          {({ field }) => <Radio field={field}/>}
+                        <Field name={`answers.${question.id}`}>
+                          {({ field }) => <Radio field={field} setFieldValue={setFieldValue} option={option}/>}
                         </Field>
                       ) : null}
                       <Answer>{option}</Answer>
@@ -85,7 +84,7 @@ function Answers(props) {
         {settings.requireSignature && (
           <>
             <Name>imie i nazwisko</Name>
-            <InputRow><Input name='signature'/></InputRow>
+            <InputRow><Input name='answers.signature'/></InputRow>
           </>
         )}
         <ButtonWrapper>
