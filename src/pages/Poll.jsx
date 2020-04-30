@@ -1,16 +1,14 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom'
+import React from 'react';
 import styled from 'styled-components';
 import { Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
 
 import Navigation from 'components/Navigation';
-import PollInfo from "modals/PollInfo";
 
 import Questions from './Poll/Questions';
 import Settings from './Poll/Settings';
 
-import { withModal } from 'providers/ModalProvider';
+import { withAuth } from 'providers/AuthProvider';
 
 const Layout = styled.div`
   display: grid;
@@ -23,17 +21,7 @@ const FormStyled = styled(Form)`
 `;
 
 function Poll(props) {
-  const location = useLocation();
-  const { modal } = props;
-
-  // remove slash from url
-  const poll = location.pathname.substring(1);
-  const pollInfoFromLocalStorage = JSON.parse(localStorage.getItem(poll)) || {};
-  const isCreator = pollInfoFromLocalStorage.creator || false;
-
-  useEffect(() => {
-    // modal.open(<PollInfo/>)
-  }, []);
+  const { auth } = props;
 
   const defaultQuestion = () => ({
     id: uuidv4(),
@@ -53,8 +41,8 @@ function Poll(props) {
 
   return (
     <>
-      <Navigation isCreator={isCreator}/>
-      {isCreator ? (
+      <Navigation/>
+      {auth.isCreator ? (
         <Formik
           initialValues={initialValues}
           onSubmit={values => {
@@ -63,7 +51,7 @@ function Poll(props) {
           {({ values }) => (
             <FormStyled>
               <Layout>
-                <Settings />
+                <Settings/>
                 {console.log(JSON.stringify(values, undefined, 2))}
                 <Questions
                   defaultQuestion={defaultQuestion}
@@ -81,4 +69,4 @@ function Poll(props) {
 }
 
 
-export default withModal(Poll);
+export default withAuth(Poll);
