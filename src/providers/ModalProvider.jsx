@@ -8,12 +8,14 @@ const ModalContext = React.createContext();
 const ModalProvider = props => {
   const [state, setState] = useState({
     isOpen: false,
+    backdropCloses: null,
     content: null,
   });
 
-  const open = component => {
+  const open = (component, backdropCloses = true) => {
     setState({
       isOpen: true,
+      backdropCloses: backdropCloses,
       content: component,
     })
   };
@@ -29,7 +31,7 @@ const ModalProvider = props => {
     <>
       <ModalContext.Provider value={{ state, open, close }}>{props.children}</ModalContext.Provider>
       {createPortal(
-        <Modal isOpen={state.isOpen} onClose={close}>
+        <Modal isOpen={state.isOpen} onClose={close} backdropCloses={state.backdropCloses}>
           {state.content}
         </Modal>,
         document.body,

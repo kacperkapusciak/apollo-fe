@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom'
 import styled from 'styled-components';
 import { Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,7 +12,7 @@ import Questions from './Poll/Questions';
 import Answers from './Poll/Answers'
 import Settings from './Poll/Settings';
 
-import { withModal } from 'providers/ModalProvider';
+import { withAuth } from 'providers/AuthProvider';
 
 const Layout = styled.div`
   display: grid;
@@ -59,18 +58,10 @@ const formatAnswer = values => {
 };
 
 function Poll(props) {
-  const location = useLocation();
-  const { modal } = props;
-
-  // remove slash from url
-  const poll = location.pathname.substring(1);
-  const pollInfoFromLocalStorage = JSON.parse(localStorage.getItem(poll)) || {};
-  const isCreator = pollInfoFromLocalStorage.creator || false;
-
+  const { auth } = props;
   const [questions, setQuestions] = useState(initialValues);
 
   useEffect(() => {
-    // modal.open(<PollInfo/>)
     async function loadQuestions() {
       const { data } = await axios.get('poll');
       if (data) {
@@ -83,8 +74,8 @@ function Poll(props) {
 
   return (
     <>
-      <Navigation isCreator={isCreator}/>
-      {isCreator ? (
+      <Navigation/>
+      {auth.isCreator ? (
         <Formik
           initialValues={initialValues}
           onSubmit={values => {
@@ -126,4 +117,4 @@ function Poll(props) {
 }
 
 
-export default withModal(Poll);
+export default withAuth(Poll);
