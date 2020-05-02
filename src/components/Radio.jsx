@@ -36,17 +36,18 @@ const Input = styled.input`
 `;
 
 function Radio(props) {
-  const { disabled, field = {} } = props;
+  const { disabled, field = {}, setFieldValue, option = '' } = props;
 
   return (
     <Wrapper>
       <Input
         type="radio"
-        checked={field.value}
+        name={field.name}
+        checked={field.value === option}
+        onChange={() => setFieldValue(field.name, option)}
         disabled={disabled}
-        {...field}
       />
-      <Checkmark checked={field.value}/>
+      <Checkmark checked={field.value === option}/>
     </Wrapper>
   );
 };
