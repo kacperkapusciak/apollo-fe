@@ -6,6 +6,40 @@ import Button from 'components/Button';
 import { withAuth } from 'providers/AuthProvider';
 
 import mockLogin from 'mock_db/mockLogin';
+import KeyIcon from "../assets/KeyIconHorizontal.svg";
+
+const IconField = styled.div`
+  height: 40px;
+  width: 40px;
+  background: ${({ theme }) => theme.colors.primary[200]};
+  border-radius: 50%;
+  display: inline-block;
+  align-self: center;
+  margin-bottom: 8px;
+`;
+const Icon = styled.img`
+  height: 24px;
+  width: 24px;
+  position: relative;
+  left: 10px;
+  top: 8px;
+`;
+
+const ButtonWrapper = styled.div`
+ margin: 16px auto;
+`;
+
+const Header = styled.h5`
+  text-align: center;
+  font-weight: normal;
+  font-size: 30px;
+  margin-bottom: 24px;
+`;
+
+const Info = styled.p`
+  width: 550px;
+  padding-bottom: 50px;
+`;
 
 const shake = keyframes`
   10%, 90% {
@@ -26,13 +60,28 @@ const shake = keyframes`
 `;
 const InputsWrapper = styled.div`
   animation: ${({ error }) => error && css`${shake} 0.82s cubic-bezier(.36,.07,.19,.97) both`};
+  margin: 32px auto 42px;
 `;
 const Input = styled.input`
   &::-webkit-inner-spin-button, 
   &::-webkit-outer-spin-button { 
     -webkit-appearance: none; 
-    margin: 0; 
   }
+  input[type=number] {
+    -moz-appearance:textfield;
+  }
+  font-size: 48px;
+  text-align: center;
+  width: 48px;
+  height: 64px;
+  margin: 4px;
+  border-radius: 8px;
+  border: 2px solid ${({ theme }) => theme.colors.neutral[300]};
+`;
+
+const Footer = styled.p`
+  color: ${({ theme }) => theme.colors.neutral[700]};
+  font-size: 14px;
 `;
 
 const BACKSPACE_KEY = 8;
@@ -106,7 +155,13 @@ function EnterPIN(props) {
   }
 
   return (
-    <div>
+    <>
+      <IconField><Icon src={KeyIcon}/></IconField>
+      <Header>Bezpieczeństwo to podstawa</Header>
+      <Info>
+        Każda nasza ankieta zabezpieczona jest kodem PIN, dzięki któremu przekazane opinie są zawsze wiarygodne.
+      </Info>
+      <p>Wprowadź PIN aby uzyskać dostęp:</p>
       <p>admin: 2137</p>
       <p>user: 6969</p>
       <InputsWrapper error={error}>
@@ -124,8 +179,11 @@ function EnterPIN(props) {
           />
         ))}
       </InputsWrapper>
+      <Footer>Nie masz PINu? Poproś o niego twórcę ankiety.</Footer>
+      <ButtonWrapper>
       <Button type="button" size="sm" onClick={() => authenticate(pin.join(''))}>wejdź</Button>
-    </div>
+      </ButtonWrapper>
+    </>
   );
 }
 
