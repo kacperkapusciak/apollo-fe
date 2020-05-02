@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components';
 import { Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
 
+import axios from 'axios-instance';
+
 import Navigation from 'components/Navigation';
-import PollInfo from "modals/PollInfo";
+import Container from 'components/Container';
 
 import Questions from './Poll/Questions';
+import Answers from './Poll/Answers'
 import Settings from './Poll/Settings';
 
 import { withModal } from 'providers/ModalProvider';
@@ -22,6 +25,39 @@ const FormStyled = styled(Form)`
   display: flex;
 `;
 
+
+const defaultQuestion = () => ({
+  id: uuidv4(),
+  value: '',
+  options: [''],
+  type: 'multi',
+});
+
+const initialValues = {
+  questions: [defaultQuestion()],
+  settings: {
+    requireSignature: false,
+    resultsAccess: 'me',
+    expire: null
+  }
+};
+
+const formatAnswer = values => {
+  const { answers } = values;
+
+  for (const answer in answers) {
+    if (typeof answers[answer] !== 'string') {
+      const objCopy = { ...answers[answer] };
+      answers[answer] = [];
+      for (const property in objCopy)
+        if (objCopy[property])
+          answers[answer].push(property);
+    }
+  }
+
+  return answers
+};
+
 function Poll(props) {
   const location = useLocation();
   const { modal } = props;
@@ -31,25 +67,19 @@ function Poll(props) {
   const pollInfoFromLocalStorage = JSON.parse(localStorage.getItem(poll)) || {};
   const isCreator = pollInfoFromLocalStorage.creator || false;
 
+  const [questions, setQuestions] = useState(initialValues);
+
   useEffect(() => {
     // modal.open(<PollInfo/>)
-  }, []);
-
-  const defaultQuestion = () => ({
-    id: uuidv4(),
-    value: '',
-    options: [''],
-    type: 'single',
-  });
-
-  const initialValues = {
-    questions: [defaultQuestion()],
-    settings: {
-      requireSignature: false,
-      resultsAccess: 'me',
-      expire: null
+    async function loadQuestions() {
+      const { data } = await axios.get('poll');
+      if (data) {
+        setQuestions(data);
+      }
     }
-  };
+
+    loadQuestions()
+  }, []);
 
   return (
     <>
@@ -63,8 +93,7 @@ function Poll(props) {
           {({ values }) => (
             <FormStyled>
               <Layout>
-                <Settings />
-                {console.log(JSON.stringify(values, undefined, 2))}
+                <Settings/>
                 <Questions
                   defaultQuestion={defaultQuestion}
                   values={values}
@@ -74,7 +103,23 @@ function Poll(props) {
           )}
         </Formik>
       ) : (
-        <div>User</div>
+        <Formik
+          initialValues={questions}
+          onSubmit={async values => {
+            const formattedAnswer = formatAnswer(values);
+            console.log(formattedAnswer);
+            await axios.post('answer', formattedAnswer);
+          }}
+          enableReinitialize
+        >
+          {({ values, setFieldValue }) => (
+            <FormStyled>
+              <Container size="sm">
+                <Answers values={values} setFieldValue={setFieldValue}/>
+              </Container>
+            </FormStyled>
+          )}
+        </Formik>
       )}
     </>
   );
