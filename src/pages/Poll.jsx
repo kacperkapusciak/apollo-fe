@@ -7,7 +7,7 @@ import axios from 'axios-instance';
 
 import Navigation from 'components/Navigation';
 import Container from 'components/Container';
-
+import { useHistory } from 'react-router-dom';
 import Questions from './Poll/Questions';
 import Answers from './Poll/Answers'
 import Settings from './Poll/Settings';
@@ -60,6 +60,11 @@ const formatAnswer = values => {
 function Poll(props) {
   const { auth } = props;
   const [questions, setQuestions] = useState(initialValues);
+  const history = useHistory();
+
+  function ConfirmAnswers() {
+    history.push("/confirmation");
+  }
 
   useEffect(() => {
     async function loadQuestions() {
@@ -100,6 +105,7 @@ function Poll(props) {
             const formattedAnswer = formatAnswer(values);
             console.log(formattedAnswer);
             await axios.post('answer', formattedAnswer);
+            ConfirmAnswers();
           }}
           enableReinitialize
         >
