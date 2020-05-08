@@ -24,7 +24,7 @@ const Align = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const Logo = styled.img`
+export const Logo = styled.img`
   &:hover {
     cursor: pointer;
   }
@@ -49,7 +49,7 @@ function Navigation(props) {
             </Button>
           </Align>
         ) : (
-          <img src={logo} alt='' />
+          <Logo src={logo} alt='' onClick={() => history.push('/')} />
         )}
       </Container>
     </Wrapper>

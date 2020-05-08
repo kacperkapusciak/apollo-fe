@@ -1,4 +1,4 @@
-import Enzyme, { mount, shallow } from 'enzyme'
+import Enzyme, { shallow, mount } from 'enzyme'
 import { ThemeConsumer } from 'styled-components'
 import Adapter from 'enzyme-adapter-react-16';
 
