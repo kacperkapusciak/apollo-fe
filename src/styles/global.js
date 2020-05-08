@@ -1,8 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,700&display=swap&subset=latin-ext');
-  
   * {
     margin: 0;
     padding: 0;
