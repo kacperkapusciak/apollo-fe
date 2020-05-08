@@ -12,6 +12,7 @@ const Dummy = lazy(() => import('pages/Dummy'));
 const Landing = lazy(() => import('pages/Landing'));
 const Poll = lazy(() => import('pages/Poll'));
 const Expired = lazy(() => import('pages/Expired'));
+const Confirmation = lazy(() => import('pages/Confirmation'));
 
 
 function App(props) {
@@ -25,6 +26,7 @@ function App(props) {
             <Switch>
               <Route exact path="/" component={Landing}/>
               <Route exact path="/expired" component={Expired}/>
+              <Route exact path="/confirmation" component={Confirmation}/>
               <Route path="/:pollUrl">
                 {auth.isAuthenticated ? <Poll/> : <Dummy/>}
               </Route>
