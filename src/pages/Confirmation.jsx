@@ -7,6 +7,7 @@ import axios from "../axios-instance";
 import StarOn from "assets/StarOnIcon.svg"
 import StarOff from "assets/StarOffIcon.svg"
 import {v4 as uuidv4} from "uuid";
+import { motion } from "framer-motion"
 
 const Header = styled.h2`
   text-align: center;
@@ -44,7 +45,16 @@ const AnswersWrapper = styled.div`
   margin: 0 auto;
   width: 50%;
 `;
-const OpinionSentText = styled.p`
+
+
+const variants = {
+  visible: { opacity: 1, height: 281},
+  fadeout: { opacity: 0, height: 0, transition: { duration: 1 , delay: 0.5}}
+};
+
+const OpinionSentAlert = styled(motion.div).attrs(() => ({
+  initial: "visible",
+  variants}))`
   margin: 0 auto;
   font-size: 24px;
   text-align: center;
@@ -63,13 +73,15 @@ const defaultAnswer = () => ({
     count: 0
 });
 
+
 const initialValues = [defaultResult()];
 
 function Confirmation(props) {
 
     const [results, setResults] = useState(initialValues);
     const [rating, setRating] = useState(0);
-    const [isOpinionSent, setIsOpinionSent] = useState(false);
+    const [isOpinionSet, setIsOpinionSet] = useState(false);
+    const [isOpinionSubmitted, setIsOpinionSubmitted] = useState(false);
 
     useEffect(() => {
     async function loadResults() {
@@ -84,7 +96,7 @@ function Confirmation(props) {
     return (
       <>
         <Header>Twoje odpowiedzi zostały przekazane</Header>
-        {!isOpinionSent ? (
+        {!isOpinionSubmitted ? (
           <OpinionWrapper>
           <OpinionHeader>Twoja opinia ma znaczenie</OpinionHeader>
           <OpinionText>Jak oceniasz swoje doświadczenie z Apollo?</OpinionText>
@@ -94,7 +106,7 @@ function Confirmation(props) {
               fullSymbol={<img src={StarOn}/>}
               onClick = {(value) => {
                   setRating(value);
-                  setIsOpinionSent(true);
+                  setIsOpinionSet(true);
               }}
             />
           </RatingWrapper>
@@ -102,31 +114,34 @@ function Confirmation(props) {
             <Button
                 btnType="secondary"
                 size="lg"
-                onClick={console.log(rating)}
+                onClick={ () =>{
+                  console.log(rating);
+                  if(isOpinionSet) setIsOpinionSubmitted(true);
+                }}
             >
                 Prześlij
             </Button>
           </ButtonWrapper>
       </OpinionWrapper>
       ):(
-      <OpinionSentText>
+      <OpinionSentAlert animate="fadeout" >
           Dziękujemy!
-      </OpinionSentText>
+      </OpinionSentAlert>
       )}
       <AnswersWrapper>
-          <p>Odpowiedzi:</p>
-          {results.map((result, rIndex) => (
-            <Card key={rIndex}>
-              {result.value}
-              {result.answers.map((answer, aIndex) => (
-                <>
-                  <br/>
-                  {answer.value} : {answer.count}
-                </>
-              ))}
-            </Card>
-          ))}
-        </AnswersWrapper>
+        <p>Odpowiedzi:</p>
+        {results.map((result, rIndex) => (
+          <Card key={rIndex}>
+            {result.value}
+            {result.answers.map((answer, aIndex) => (
+              <>
+                <br/>
+                {answer.value} : {answer.count}
+              </>
+            ))}
+          </Card>
+        ))}
+      </AnswersWrapper>
     </>
     );
 }
