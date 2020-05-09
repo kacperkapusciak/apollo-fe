@@ -2,6 +2,7 @@ import React from 'react';
 import { Field } from 'formik';
 import styled from "styled-components";
 
+import Label from 'components/Label';
 import Checkbox from 'components/Checkbox';
 import Select from 'components/Select';
 import DeletePoll from 'modals/DeletePoll';
@@ -19,16 +20,9 @@ const Header = styled.h5`
   color: ${({ theme }) => theme.colors.neutral[700]};
   margin-bottom: 8px;
 `;
-const Label = styled.label`
-  display: block;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.7px;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.neutral[500]};
+const LabelStyled = styled(Label)`
   margin-top: 16px;
   margin-bottom: 6px;
-  
   &:first-of-type {
     margin-top: 8px;
   }
@@ -100,26 +94,26 @@ function Settings(props) {
   return (
     <div>
       <Header>opcje</Header>
-      <Label>anonimowość</Label>
+      <LabelStyled>anonimowość</LabelStyled>
       <AlignWrapper>
         <Field name="settings.requireSignature">
           {({ field }) => <Checkbox field={field}/>}
         </Field>
         <Info>Wymagaj podpisu</Info>
       </AlignWrapper>
-      <Label>wgląd w odpowiedzi</Label>
+      <LabelStyled>wgląd w odpowiedzi</LabelStyled>
       <Field
         name="settings.resultsAccess"
         component={Select}
         options={resultsAccess}
       />
-      <Label>ankieta wygaśnie</Label>
+      <LabelStyled>ankieta wygaśnie</LabelStyled>
       <Field
         name="settings.expire"
         component={Select}
         options={expire}
       />
-      <Label>strefa zagrożenia</Label>
+      <LabelStyled>strefa zagrożenia</LabelStyled>
       <AlignWrapper>
         <Icon src={ErrorIcon} alt="Error icon"/>
         <DeletePollButton
