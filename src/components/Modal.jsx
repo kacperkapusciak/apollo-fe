@@ -27,7 +27,7 @@ const ContentWrapper = styled.div`
   padding: 32px;
   min-height: 190px;
   max-height: 80vh;
-  min-width: 512px;
+  width: 512px;
 `;
 
 function Modal(props) {
