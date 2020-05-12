@@ -37,6 +37,8 @@ const initialValues = {
   settings: {
     requireSignature: false,
     resultsAccess: 'me',
+    sendSummary: false,
+    email: '',
     expire: null
   }
 };
@@ -84,7 +86,7 @@ function Poll(props) {
           {({ values }) => (
             <FormStyled>
               <Layout>
-                <LeftPanel/>
+                <LeftPanel sendSummary={values.settings.sendSummary}/>
                 <Questions
                   defaultQuestion={defaultQuestion}
                   values={values}

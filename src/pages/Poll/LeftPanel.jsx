@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Field } from 'formik';
 import styled from "styled-components";
+import { AnimatePresence, motion } from "framer-motion"
 
 import axios from 'axios-instance';
 
@@ -26,22 +27,43 @@ const Header = styled.h5`
   margin-top: ${({ margin }) => margin ? '16px' : '0'};
 `;
 const LabelStyled = styled(Label)`
-  margin-top: 16px;
+  margin-top: ${({ margin }) => margin ? '16px' : '8px'};
   margin-bottom: ${({ margin }) => margin ? '6px' : 0};
-  &:first-of-type {
-    margin-top: 8px;
-  }
 `;
 const AlignWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
 const Info = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   color: ${({ theme }) => theme.colors.neutral[700]};
 `;
-const DeletePollButton = styled.button`
+const Input = styled(Field)`
+  height: 40px;
   font-size: 16px;
+  border: 2px solid ${({ theme }) => theme.colors.neutral[200]};
+  border-radius: 8px;
+  padding: 8px;
+  max-width: 200px;
+  color: ${({ theme }) => theme.colors.neutral[600]};
+  
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.neutral[400]};
+  }
+`;
+const variants = {
+  visible: { opacity: 1, transition: { duration: 0.5 } },
+  hidden: { opacity: 0 },
+};
+const InputWrapper = styled(motion.div).attrs(() => ({
+  initial: "hidden",
+  exit: { opacity: 0, transition: { duration: 0.5 } },
+  variants
+}))`
+  margin-top: 8px;
+`;
+const DeletePollButton = styled.button`
+  font-size: 14px;
   border: none;
   background: none;
   color: ${({ theme }) => theme.colors.neutral[700]};
@@ -71,7 +93,7 @@ const PINComponent = styled.div`
 
 
 function LeftPanel(props) {
-  const { modal } = props;
+  const { modal, sendSummary } = props;
   const [PIN, setPIN] = useState({ user: null, creator: null });
 
   useEffect(() => {
@@ -156,6 +178,20 @@ function LeftPanel(props) {
           component={Select}
           options={expire}
         />
+        <LabelStyled margin>e-mail</LabelStyled>
+        <AlignWrapper>
+          <Field name="settings.sendSummary">
+            {({ field }) => <Checkbox field={field}/>}
+          </Field>
+          <Info>Prześlij podsumowanie ankiety na mój adres e-mail</Info>
+        </AlignWrapper>
+        <AnimatePresence>
+          {sendSummary && (
+            <InputWrapper animate='visible'>
+              <Input type="email" name="settings.email" placeholder="jankowalski@apollo.com"/>
+            </InputWrapper>
+          )}
+        </AnimatePresence>
         <LabelStyled margin>strefa zagrożenia</LabelStyled>
         <AlignWrapper>
           <Icon src={ErrorIcon} alt="Error icon"/>
@@ -169,6 +205,6 @@ function LeftPanel(props) {
       </section>
     </div>
   );
-};
+}
 
 export default withModal(LeftPanel);
