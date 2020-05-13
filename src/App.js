@@ -26,10 +26,10 @@ function App(props) {
             <Switch>
               <Route exact path="/" component={Landing}/>
               <Route exact path="/expired" component={Expired}/>
-              <Route exact path="/confirmation" component={Confirmation}/>
-              <Route path="/:pollUrl">
+              <Route exact path="/:pollUrl">
                 {auth.isAuthenticated ? <Poll/> : <Dummy/>}
               </Route>
+               <Route exact path="/:pollUrl/confirmation" component={Confirmation}/>
             </Switch>
             <GlobalStyle/>
           </Suspense>

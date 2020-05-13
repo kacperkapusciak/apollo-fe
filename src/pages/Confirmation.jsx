@@ -1,61 +1,49 @@
 import React, {useEffect, useState} from 'react';
+import styled from 'styled-components';
 import Rating from 'react-rating';
-import styled from "styled-components";
-import Button from "../components/Button";
-import Card from "../components/QuestionCard";
-import axios from "../axios-instance";
-import StarOn from "assets/StarOnIcon.svg"
-import StarOff from "assets/StarOffIcon.svg"
-import {v4 as uuidv4} from "uuid";
-import { motion } from "framer-motion"
+import {v4 as uuidv4} from 'uuid';
+import { motion } from 'framer-motion';
+
+import axios from 'axios-instance';
+
+import Button from 'components/Button';
+import Card from 'components/QuestionCard';
+
+import StarOn from 'assets/StarOnIcon.svg';
+import StarOff from 'assets/StarOffIcon.svg';
 
 const Header = styled.h2`
-  text-align: center;
   font-weight: normal;
-  font-size: 30px;
-  padding: 44px 0px 67px 0px;
+  font-size: 36px;
+  margin: 44px 0 67px 0;
 `;
-
 const OpinionHeader = styled.h3`
-  font: Bold 20px/1px;
-  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
 `;
 const OpinionText = styled.p`
-  font: Bold 18px/1px;
-  text-align: center;
-  padding-bottom: 24px;
+  margin-bottom: 24px;
 `;
 const RatingWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding-bottom: 14px;
+  margin-bottom: 14px;
 `;
 const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: 20px 0 40px 0;
+  margin: 20px auto 32px;
 `;
 const OpinionWrapper = styled.div`
-  padding-bottom: 34px;
-`;
-const AnswersWrapper = styled.div`
-  margin: 0 auto;
-  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 34px;
 `;
 
 
 const variants = {
-  visible: { opacity: 1, height: 281},
-  fadeout: { opacity: 0, height: 0, transition: { duration: 1 , delay: 0.5}}
+  visible: { opacity: 1, height: 273 },
+  fadeout: { opacity: 0, height: 0, transition: { duration: 0.5, delay: 1.5} }
 };
 
-const OpinionSentAlert = styled(motion.div).attrs(() => ({
-  initial: "visible",
-  variants}))`
-  margin: 0 auto;
+const OpinionSentAlert = styled(motion.div).attrs(() => ({ initial: "visible", variants }))`
   font-size: 24px;
   text-align: center;
 `;
@@ -114,9 +102,10 @@ function Confirmation(props) {
             <Button
                 btnType="secondary"
                 size="lg"
-                onClick={ () =>{
+                disabled={!isOpinionSet}
+                onClick={() => {
                   console.log(rating);
-                  if(isOpinionSet) setIsOpinionSubmitted(true);
+                  setIsOpinionSubmitted(true);
                 }}
             >
                 Prześlij
@@ -128,7 +117,7 @@ function Confirmation(props) {
           Dziękujemy!
       </OpinionSentAlert>
       )}
-      <AnswersWrapper>
+      <div>
         <p>Odpowiedzi:</p>
         {results.map((result, rIndex) => (
           <Card key={rIndex}>
@@ -141,7 +130,7 @@ function Confirmation(props) {
             ))}
           </Card>
         ))}
-      </AnswersWrapper>
+      </div>
     </>
     );
 }
