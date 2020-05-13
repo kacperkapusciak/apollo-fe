@@ -7,7 +7,7 @@ import axios from 'axios-instance';
 
 import Navigation from 'components/Navigation';
 import Container from 'components/Container';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Questions from './Poll/Questions';
 import Answers from './Poll/Answers'
 import Settings from './Poll/Settings';
@@ -61,10 +61,8 @@ function Poll(props) {
   const { auth } = props;
   const [questions, setQuestions] = useState(initialValues);
   const history = useHistory();
+  const location = useLocation();
 
-  function ConfirmAnswers() {
-    history.push("/confirmation");
-  }
 
   useEffect(() => {
     async function loadQuestions() {
@@ -80,7 +78,7 @@ function Poll(props) {
   return (
     <>
       <Navigation/>
-      {auth.isCreator ? (
+      {!auth.isCreator ? (
         <Formik
           initialValues={initialValues}
           onSubmit={values => {
@@ -105,7 +103,7 @@ function Poll(props) {
             const formattedAnswer = formatAnswer(values);
             console.log(formattedAnswer);
             await axios.post('answer', formattedAnswer);
-            ConfirmAnswers();
+            history.push('${location.pathname}/confirmation');
           }}
           enableReinitialize
         >

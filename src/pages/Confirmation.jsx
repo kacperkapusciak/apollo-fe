@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Rating from 'react-rating';
 import {v4 as uuidv4} from 'uuid';
 import { motion } from 'framer-motion';
-
+import Container from "../components/Container";
 import axios from 'axios-instance';
 
 import Button from 'components/Button';
@@ -82,7 +82,7 @@ function Confirmation(props) {
     }, []);
 
     return (
-      <>
+      <Container size="sm">
         <Header>Twoje odpowiedzi zostały przekazane</Header>
         {!isOpinionSubmitted ? (
           <OpinionWrapper>
@@ -131,7 +131,7 @@ function Confirmation(props) {
           </Card>
         ))}
       </div>
-    </>
+      </Container>
     );
 }
 
