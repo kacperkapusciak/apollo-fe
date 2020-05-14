@@ -1,13 +1,12 @@
 # apollo-fe
 
 ## Prerequisites
-You need to have `yarn`, `Node` and `json-server` installed on your machine.
+You need to have `yarn` and `Node` installed on your machine.
 <hr>
 
-### `json-server --watch src/mock_db/db.json --port 3001`
+### `yarn install`
 
-Runs mocked db on port 3001.<br />
-You'll need to install `json-server` on your local machine by `npm install -g json-server`.
+Installs all needed packages in order to run this project in development mode.
 
 ### `yarn start`
 

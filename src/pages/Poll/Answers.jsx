@@ -55,7 +55,7 @@ function Answers(props) {
             <Head>{question.value}</Head>
             {question.type === 'text' ? (
               <Textarea
-                name={`answers.${question.id}`}
+                name={`answers.${question._id}`}
                 component="textarea"
                 placeholder="Wpisz swoją odpowiedź..."
               />
@@ -65,11 +65,11 @@ function Answers(props) {
                   {question.options.map((option, oIndex) => (
                     <OptionRow key={`question-row-${oIndex}`}>
                       {question.type === 'multi' ? (
-                        <Field name={`answers.${question.id}.${option}`}>
+                        <Field name={`answers.${question._id}.${option}`}>
                           {({ field }) => <Checkbox field={field}/>}
                         </Field>
                       ) : question.type === 'single' ? (
-                        <Field name={`answers.${question.id}`}>
+                        <Field name={`answers.${question._id}`}>
                           {({ field }) => <Radio field={field} setFieldValue={setFieldValue} option={option}/>}
                         </Field>
                       ) : null}

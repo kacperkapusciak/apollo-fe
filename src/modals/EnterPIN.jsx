@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
+import { useLocation } from 'react-router-dom';
+
+import axios from 'axios-instance';
 
 import Button from 'components/Button';
 
 import { withAuth } from 'providers/AuthProvider';
 
 import KeyIcon from "assets/KeyIconHorizontal.svg";
-import mockLogin from 'mock_db/mockLogin';
 
 const shake = keyframes`
   10%, 90% {
@@ -85,6 +87,8 @@ const RIGHT_ARROW_KEY = 39;
 function EnterPIN(props) {
   const { auth, closeModal } = props;
 
+  const location = useLocation();
+
   const [pin, setPin] = useState(['', '', '', '']);
   const [error, setError] = useState(null);
 
@@ -92,7 +96,11 @@ function EnterPIN(props) {
 
   async function authenticate(pin) {
     try {
-      const { data } = await mockLogin(pin);
+      const payload = {
+        pin: parseInt(pin),
+        url: location.pathname.substr(1)
+      };
+      const { data } = await axios.post('core/login', payload);
       auth.authenticate();
       auth.setIsCreator(data.isCreator);
       closeModal();

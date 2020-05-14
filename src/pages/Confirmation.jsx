@@ -93,7 +93,9 @@ function Confirmation(props) {
       url,
       rating
     });
-    setIsOpinionSubmitted(true);
+    if (result.status === 200) {
+      setIsOpinionSubmitted(true);
+    }
   }
 
   return (

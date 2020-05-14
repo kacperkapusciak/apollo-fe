@@ -28,7 +28,7 @@ const FormStyled = styled(Form)`
 
 
 const defaultQuestion = () => ({
-  id: uuidv4(),
+  _id: '',
   value: '',
   options: [''],
   type: 'multi',
@@ -73,11 +73,13 @@ function Poll(props) {
   const history = useHistory();
   const location = useLocation();
 
+  const url = location.pathname.substr(1);
 
   useEffect(() => {
     async function loadQuestions() {
-      const { data } = await axios.get('poll');
+      const { data } = await axios.get(`poll/${url}`);
       if (data) {
+        if (!data.questions.length) data.questions.push(defaultQuestion());
         setQuestions(data);
       }
     }
@@ -90,9 +92,9 @@ function Poll(props) {
       <Navigation/>
       {auth.isCreator ? (
         <Formik
-          initialValues={questions}
+          initialValues={questions || initialValues}
           onSubmit={async (values, {setSubmitting} )=> {
-            values.url = location.pathname.substr(1);
+            values.url = url;
             await axios.put('poll', values);
             setSubmitting(false);
           }}
@@ -102,7 +104,7 @@ function Poll(props) {
             <FormStyled>
               <AutoSave />
               <Layout>
-                <LeftPanel sendSummary={values.settings.sendSummary}/>
+                <LeftPanel sendSummary={values.settings.sendSummary} url={url}/>
                 <Questions
                   defaultQuestion={defaultQuestion}
                   values={values}
@@ -113,12 +115,15 @@ function Poll(props) {
         </Formik>
       ) : (
         <Formik
-          initialValues={questions}
+          initialValues={questions || initialValues}
           onSubmit={async values => {
             const formattedAnswer = formatAnswer(values);
-            formattedAnswer.url = location.pathname.substr(1);
-            await axios.post('answer', formattedAnswer);
-            history.push(`${location.pathname}/confirmation`);
+            formattedAnswer.url = url;
+
+            const result = await axios.post('answer', formattedAnswer);
+            if (result.status === 200) {
+              history.push(`${location.pathname}/confirmation`);
+            }
           }}
           enableReinitialize
         >

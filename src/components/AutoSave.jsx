@@ -4,10 +4,9 @@ import _ from 'lodash';
 
 const AutoSave = ({ debounceMs = 1000 }) => {
   const formik = useFormikContext();
-  const [isSaved, setIsSaved] = useState(null);
   const debouncedSubmit = useCallback(
     _.debounce(() => {
-      return formik.submitForm().then(() => setIsSaved(true));
+      return formik.submitForm();
     }, debounceMs),
     [formik.submitForm, debounceMs],
   );

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3001/'
+  baseURL: 'https://apollo-io-backend.herokuapp.com/api/'
 });
 
 export default instance;
