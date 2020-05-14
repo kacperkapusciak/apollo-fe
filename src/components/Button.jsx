@@ -58,6 +58,7 @@ const Button = styled.button`
   text-transform: uppercase;
   font-weight: bold;
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
   
   &:hover {
     ${({ btnType, theme }) => {
@@ -81,7 +82,6 @@ const Button = styled.button`
           `;
       }
     }};
-    cursor: pointer;
   }
   
   &:disabled {

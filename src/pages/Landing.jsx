@@ -48,7 +48,7 @@ function Landing(props) {
       auth.authenticate();
       auth.setIsCreator(true);
       history.push(data.url);
-      modal.open(<PollInfo/>)
+      modal.open(<PollInfo pinUser={data.pinUser} pinCreator={data.pinCreator}/>)
     }
   };
 

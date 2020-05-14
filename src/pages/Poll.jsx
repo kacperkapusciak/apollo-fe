@@ -10,14 +10,14 @@ import Container from 'components/Container';
 import { useHistory, useLocation } from 'react-router-dom';
 import Questions from './Poll/Questions';
 import Answers from './Poll/Answers'
-import Settings from './Poll/Settings';
+import LeftPanel from './Poll/LeftPanel';
 
 import { withAuth } from 'providers/AuthProvider';
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: 160px 768px 160px;
-  grid-gap: 24px;
+  grid-template-columns: 200px 768px 200px;
+  grid-gap: 32px;
   margin: 0 auto;
 `;
 const FormStyled = styled(Form)`
@@ -87,7 +87,7 @@ function Poll(props) {
           {({ values }) => (
             <FormStyled>
               <Layout>
-                <Settings/>
+                <LeftPanel/>
                 <Questions
                   defaultQuestion={defaultQuestion}
                   values={values}
