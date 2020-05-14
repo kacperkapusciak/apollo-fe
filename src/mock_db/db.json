@@ -44,38 +44,50 @@
   "answer": {},
   "results": [
     {
-      "id": "f9674ec9-561d-269b-9a4d-94837ff81acc",
-      "value": "first result",
-      "answers": [
+    "title": "Pytanie single",
+    "data": {
+      "labels": ["January", "February", "March"],
+      "datasets": [
         {
-          "id": "f9674ec4-561d-269b-9a4d-94837ff81acc",
-          "value": "answer A",
-          "count": 3
-        },
-        {
-          "id": "f9674ec4-531d-269b-9a4d-94837ff81acc",
-          "value": "answer B",
-          "count": 4
+          "backgroundColor": "rgba(75,192,192,1)",
+          "borderColor": "rgba(0,0,0,1)",
+          "borderWidth": 2,
+          "data": [65, 59, 80]
         }
-      ],
+      ]
+     },
+     "type": "single"
+    },
+    {
+      "title": "Pytanie multi",
+      "data": {
+        "labels": ["Osiem", "Siedem", "Trzy"],
+        "scales": {
+          "yAxes": [{
+            "display": true,
+            "ticks": {
+              "suggestedMin": 0,
+              "beginAtZero": true
+            }
+          }]
+        },
+        "datasets": [
+          {
+            "backgroundColor": "rgba(75,192,192,1)",
+            "borderColor": "rgba(0,0,0,1)",
+            "borderWidth": 2,
+            "data": [8, 8, 10]
+          }
+        ]
+      },
       "type": "multi"
     },
     {
-      "id": "f9674rc9-561d-269b-9a4d-94837ff81acc",
-      "value": "second result",
-      "answers": [
-        {
-          "id": "f967hec4-561d-269b-9a4d-94837ff81acc",
-          "value": "answer C",
-          "count": 5
-        },
-        {
-          "id": "f9674ec4-531d-269b-9a4d-94837fk81acc",
-          "value": "answer D",
-          "count": 6
-        }
-      ],
-      "type": "multi"
+      "title": "Pytanie otwarte",
+      "data": {
+        "answers":["Jakaś odpowiedź", "Jeszcze gdy chodziłem do podstawówki, to był tam taki Paweł, i ja jechałem na rowerze, i go spotkałem, i potem jeszcze pojechałem do biedronki na lody, i po drodze do domu wtedy jeszcze, już do domu pojechałem"]
+      },
+      "type": "text"
     }
   ]
 }

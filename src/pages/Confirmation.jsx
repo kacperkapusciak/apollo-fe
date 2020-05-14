@@ -12,6 +12,8 @@ import Card from 'components/QuestionCard';
 
 import StarOn from 'assets/StarOnIcon.svg';
 import StarOff from 'assets/StarOffIcon.svg';
+import {Bar} from 'react-chartjs-2';
+import Results from "./Results";
 
 const Header = styled.h2`
   font-weight: normal;
@@ -38,7 +40,6 @@ const OpinionWrapper = styled.div`
   align-items: center;
   margin-bottom: 34px;
 `;
-
 
 const variants = {
   visible: { opacity: 1, height: 273 },
@@ -122,17 +123,7 @@ function Confirmation(props) {
       )}
       <div>
         <p>Odpowiedzi:</p>
-        {results.map((result, rIndex) => (
-          <Card key={rIndex}>
-            {result.value}
-            {result.answers.map((answer, aIndex) => (
-              <>
-                <br/>
-                {answer.value} : {answer.count}
-              </>
-            ))}
-          </Card>
-        ))}
+        <Results results={results}/>
       </div>
     </Container>
   );
