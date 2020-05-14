@@ -41,5 +41,41 @@
       "expire": null
     }
   },
-  "answer": {}
+  "answer": {},
+  "results": [
+    {
+      "id": "f9674ec9-561d-269b-9a4d-94837ff81acc",
+      "value": "first result",
+      "answers": [
+        {
+          "id": "f9674ec4-561d-269b-9a4d-94837ff81acc",
+          "value": "answer A",
+          "count": 3
+        },
+        {
+          "id": "f9674ec4-531d-269b-9a4d-94837ff81acc",
+          "value": "answer B",
+          "count": 4
+        }
+      ],
+      "type": "multi"
+    },
+    {
+      "id": "f9674rc9-561d-269b-9a4d-94837ff81acc",
+      "value": "second result",
+      "answers": [
+        {
+          "id": "f967hec4-561d-269b-9a4d-94837ff81acc",
+          "value": "answer C",
+          "count": 5
+        },
+        {
+          "id": "f9674ec4-531d-269b-9a4d-94837fk81acc",
+          "value": "answer D",
+          "count": 6
+        }
+      ],
+      "type": "multi"
+    }
+  ]
 }
