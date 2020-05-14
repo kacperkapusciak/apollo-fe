@@ -103,7 +103,7 @@ function Poll(props) {
             const formattedAnswer = formatAnswer(values);
             console.log(formattedAnswer);
             await axios.post('answer', formattedAnswer);
-            history.push('${location.pathname}/confirmation');
+            history.push(`${location.pathname}/confirmation`);
           }}
           enableReinitialize
         >

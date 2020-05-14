@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Rating from 'react-rating';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { motion } from 'framer-motion';
-import Container from "../components/Container";
+
 import axios from 'axios-instance';
 
+import Container from 'components/Container';
 import Button from 'components/Button';
 import Card from 'components/QuestionCard';
 
@@ -14,6 +15,7 @@ import StarOff from 'assets/StarOffIcon.svg';
 
 const Header = styled.h2`
   font-weight: normal;
+  text-align: center;
   font-size: 36px;
   margin: 44px 0 67px 0;
 `;
@@ -40,7 +42,7 @@ const OpinionWrapper = styled.div`
 
 const variants = {
   visible: { opacity: 1, height: 273 },
-  fadeout: { opacity: 0, height: 0, transition: { duration: 0.5, delay: 1.5} }
+  fadeout: { opacity: 0, height: 0, transition: { duration: 0.5, delay: 1.5 } }
 };
 
 const OpinionSentAlert = styled(motion.div).attrs(() => ({ initial: "visible", variants }))`
@@ -49,16 +51,16 @@ const OpinionSentAlert = styled(motion.div).attrs(() => ({ initial: "visible", v
 `;
 
 const defaultResult = () => ({
-    id: uuidv4(),
-    value: '',
-    answers: [defaultAnswer()],
-    type: 'multi',
+  id: uuidv4(),
+  value: '',
+  answers: [defaultAnswer()],
+  type: 'multi',
 });
 
 const defaultAnswer = () => ({
-    id: uuidv4(),
-    value: '',
-    count: 0
+  id: uuidv4(),
+  value: '',
+  count: 0,
 });
 
 
@@ -66,56 +68,57 @@ const initialValues = [defaultResult()];
 
 function Confirmation(props) {
 
-    const [results, setResults] = useState(initialValues);
-    const [rating, setRating] = useState(0);
-    const [isOpinionSet, setIsOpinionSet] = useState(false);
-    const [isOpinionSubmitted, setIsOpinionSubmitted] = useState(false);
+  const [results, setResults] = useState(initialValues);
+  const [rating, setRating] = useState(0);
+  const [isOpinionSet, setIsOpinionSet] = useState(false);
+  const [isOpinionSubmitted, setIsOpinionSubmitted] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
     async function loadResults() {
       const { data } = await axios.get('results');
       if (data) {
         setResults(data);
       }
     }
-    loadResults()
-    }, []);
 
-    return (
-      <Container size="sm">
-        <Header>Twoje odpowiedzi zostały przekazane</Header>
-        {!isOpinionSubmitted ? (
-          <OpinionWrapper>
+    loadResults()
+  }, []);
+
+  return (
+    <Container size="sm">
+      <Header>Twoje odpowiedzi zostały przekazane</Header>
+      {!isOpinionSubmitted ? (
+        <OpinionWrapper>
           <OpinionHeader>Twoja opinia ma znaczenie</OpinionHeader>
           <OpinionText>Jak oceniasz swoje doświadczenie z Apollo?</OpinionText>
           <RatingWrapper>
             <Rating
               emptySymbol={<img src={StarOff}/>}
               fullSymbol={<img src={StarOn}/>}
-              onClick = {(value) => {
-                  setRating(value);
-                  setIsOpinionSet(true);
+              onClick={(value) => {
+                setRating(value);
+                setIsOpinionSet(true);
               }}
             />
           </RatingWrapper>
           <ButtonWrapper>
             <Button
-                btnType="secondary"
-                size="lg"
-                disabled={!isOpinionSet}
-                onClick={() => {
-                  console.log(rating);
-                  setIsOpinionSubmitted(true);
-                }}
+              btnType="secondary"
+              size="lg"
+              disabled={!isOpinionSet}
+              onClick={() => {
+                console.log(rating);
+                setIsOpinionSubmitted(true);
+              }}
             >
-                Prześlij
+              Prześlij
             </Button>
           </ButtonWrapper>
-      </OpinionWrapper>
-      ):(
-      <OpinionSentAlert animate="fadeout" >
+        </OpinionWrapper>
+      ) : (
+        <OpinionSentAlert animate="fadeout">
           Dziękujemy!
-      </OpinionSentAlert>
+        </OpinionSentAlert>
       )}
       <div>
         <p>Odpowiedzi:</p>
@@ -131,8 +134,8 @@ function Confirmation(props) {
           </Card>
         ))}
       </div>
-      </Container>
-    );
+    </Container>
+  );
 }
 
 export default Confirmation;
