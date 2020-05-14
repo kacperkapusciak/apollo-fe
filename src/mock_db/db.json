@@ -7,18 +7,8 @@
   "poll": {
     "questions": [
       {
-        "id": "689ef100-d5d5-4ed4-80da-d18165ae1003",
+        "id": "43e4c63d-17c4-4daf-8e8a-20ef336b53b9",
         "value": "Pytanie pierwsze",
-        "options": [
-          "Owca",
-          "Lama",
-          "Alpaka"
-        ],
-        "type": "single"
-      },
-      {
-        "id": "f9674ec9-561d-469b-9a4d-94837ff81acc",
-        "value": "Pytanie drugie",
         "options": [
           "Owca",
           "Lama",
@@ -27,8 +17,25 @@
         "type": "multi"
       },
       {
-        "id": "c67006dd-9606-42a9-bbea-b6074c93120b",
-        "value": "Pytanie trzecie",
+        "id": "c76e5159-ff93-4c2a-8708-c7194e24a047",
+        "value": "Pytanie drugie",
+        "options": [
+          "Lama",
+          "Alpaka"
+        ],
+        "type": "single"
+      },
+      {
+        "id": "1fafc4b9-19c0-4f9c-9d85-cb5465c71fd6",
+        "value": "Pytanie z odpowiedzią tekstową",
+        "options": [
+          ""
+        ],
+        "type": "text"
+      },
+      {
+        "id": "1fafc4b9-19c0-4f9c-9d85-cb5465c71fd6",
+        "value": "Drugie pytanie z odpowiedzią tekstową",
         "options": [
           ""
         ],
@@ -37,11 +44,38 @@
     ],
     "settings": {
       "requireSignature": true,
-      "resultsAccess": "everyone",
-      "expire": null
-    }
+      "resultsAccess": "me",
+      "sendSummary": true,
+      "email": "email@example.com",
+      "expire": "2020-05-17T12:26:49.263Z"
+    },
+    "url": "cute-little-beaver"
   },
-  "answer": {},
+  "answer": {
+    "answer": [
+      {
+        "id": "689ef100-d5d5-4ed4-80da-d18165ae1003",
+        "value": [
+          "Owca"
+        ]
+      },
+      {
+        "id": "f9674ec9-561d-469b-9a4d-94837ff81acc",
+        "value": [
+          "Lama",
+          "Owca"
+        ]
+      },
+      {
+        "id": "c67006dd-9606-42a9-bbea-b6074c93120b",
+        "value": [
+          "bardzo długa odpwoiedz tekstowa ale za to ciekawa"
+        ]
+      }
+    ],
+    "signature": "Moje imie i nazwisko",
+    "url": "cute-little-beaver"
+  },
   "results": [
     {
       "id": "f9674ec9-561d-269b-9a4d-94837ff81acc",
@@ -77,5 +111,9 @@
       ],
       "type": "multi"
     }
-  ]
+  ],
+  "rating": {
+    "url": "cute-little-beaver",
+    "rating": 5
+  }
 }

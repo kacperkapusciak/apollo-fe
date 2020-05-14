@@ -88,6 +88,7 @@ const Textarea = styled(Field)`
 
 function Questions(props) {
   const { defaultQuestion, values } = props;
+  const { questions } = values;
 
   const questionTypes = [
     { value: 'single', label: 'jednokrotny wybór' },
@@ -99,7 +100,7 @@ function Questions(props) {
     <FieldArray name="questions">
       {questionsHelper => (
         <div>
-          {values.questions.map((question, qIndex) => (
+          {questions.map((question, qIndex) => (
             <Card key={qIndex}>
               <RemoveQuestion src={CrossIcon} alt='' onClick={questionsHelper.pop}/>
               <InputRow>

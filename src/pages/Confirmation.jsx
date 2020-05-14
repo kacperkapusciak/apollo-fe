@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Rating from 'react-rating';
 import { v4 as uuidv4 } from 'uuid';
@@ -73,6 +74,9 @@ function Confirmation(props) {
   const [isOpinionSet, setIsOpinionSet] = useState(false);
   const [isOpinionSubmitted, setIsOpinionSubmitted] = useState(false);
 
+  let location = useLocation();
+  const url = location.pathname.match(/[^/](.*)[/]/)[0].slice(0, -1);
+
   useEffect(() => {
     async function loadResults() {
       const { data } = await axios.get('results');
@@ -83,6 +87,14 @@ function Confirmation(props) {
 
     loadResults()
   }, []);
+
+  async function submitRating() {
+    const result = await axios.post('rating', {
+      url,
+      rating
+    });
+    setIsOpinionSubmitted(true);
+  }
 
   return (
     <Container size="sm">
@@ -106,10 +118,7 @@ function Confirmation(props) {
               btnType="secondary"
               size="lg"
               disabled={!isOpinionSet}
-              onClick={() => {
-                console.log(rating);
-                setIsOpinionSubmitted(true);
-              }}
+              onClick={submitRating}
             >
               Prześlij
             </Button>

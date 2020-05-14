@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,7 +8,8 @@ import axios from 'axios-instance';
 
 import Navigation from 'components/Navigation';
 import Container from 'components/Container';
-import { useHistory, useLocation } from 'react-router-dom';
+import AutoSave from 'components/AutoSave';
+
 import Questions from './Poll/Questions';
 import Answers from './Poll/Answers'
 import LeftPanel from './Poll/LeftPanel';
@@ -45,18 +47,24 @@ const initialValues = {
 
 const formatAnswer = values => {
   const { answers } = values;
+  const { signature } = answers;
+  delete answers.signature;
+  const formattedAnswer = { answer: [], signature };
 
-  for (const answer in answers) {
-    if (typeof answers[answer] !== 'string') {
-      const objCopy = { ...answers[answer] };
-      answers[answer] = [];
-      for (const property in objCopy)
-        if (objCopy[property])
-          answers[answer].push(property);
-    }
+  for (const id in answers) {
+    const item = { id, value: [] };
+
+    if (typeof answers[id] === 'string')
+      item.value.push(answers[id]);
+    else
+      for (const answer in answers[id])
+        if (answers[id][answer])
+          item.value.push(answer);
+
+    formattedAnswer.answer.push(item);
   }
 
-  return answers
+  return formattedAnswer
 };
 
 function Poll(props) {
@@ -82,12 +90,17 @@ function Poll(props) {
       <Navigation/>
       {auth.isCreator ? (
         <Formik
-          initialValues={initialValues}
-          onSubmit={values => {
+          initialValues={questions}
+          onSubmit={async (values, {setSubmitting} )=> {
+            values.url = location.pathname.substr(1);
+            await axios.put('poll', values);
+            setSubmitting(false);
           }}
+          enableReinitialize
         >
           {({ values }) => (
             <FormStyled>
+              <AutoSave />
               <Layout>
                 <LeftPanel sendSummary={values.settings.sendSummary}/>
                 <Questions
@@ -103,7 +116,7 @@ function Poll(props) {
           initialValues={questions}
           onSubmit={async values => {
             const formattedAnswer = formatAnswer(values);
-            console.log(formattedAnswer);
+            formattedAnswer.url = location.pathname.substr(1);
             await axios.post('answer', formattedAnswer);
             history.push(`${location.pathname}/confirmation`);
           }}
