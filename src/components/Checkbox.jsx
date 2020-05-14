@@ -7,8 +7,8 @@ const Wrapper = styled.div`
   user-select: none;
   border: 1px solid ${({ theme }) => theme.colors.neutral[700]};
   border-radius: 4px;
-  height: 16px;
-  width: 16px;
+  min-height: 16px;
+  min-width: 16px;
   margin-right: 8px;
 `;
 const Checkmark = styled.span`
