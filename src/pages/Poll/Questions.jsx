@@ -9,6 +9,7 @@ import Checkbox from 'components/Checkbox';
 import Radio from 'components/Radio';
 
 import CrossIcon from 'assets/CrossIcon.svg';
+import {motion} from "framer-motion";
 
 const RemoveQuestion = styled.img`
   position: absolute;
@@ -85,7 +86,12 @@ const Textarea = styled(Field)`
   resize: none;
   padding: 10px 10px 0px 8px;
 `;
-
+const variants = {
+  invisible: { opacity: 0 , height: 0},
+  fadein: { opacity: 1, height: 240, transition: { duration: 0.1 } }
+};
+const CardWrapper = styled(motion.div).attrs(() => ({ initial: "invisible", variants: variants }))`
+`;
 function Questions(props) {
   const { defaultQuestion, values } = props;
 
@@ -100,6 +106,7 @@ function Questions(props) {
       {questionsHelper => (
         <div>
           {values.questions.map((question, qIndex) => (
+            <CardWrapper animate="fadein">
             <Card key={qIndex}>
               <RemoveQuestion src={CrossIcon} alt='' onClick={questionsHelper.pop}/>
               <InputRow>
@@ -146,6 +153,7 @@ function Questions(props) {
                 </FieldArray>
               )}
             </Card>
+            </CardWrapper>
           ))}
           <ButtonWrapper>
             <Button
@@ -158,6 +166,7 @@ function Questions(props) {
             </Button>
           </ButtonWrapper>
         </div>
+
       )}
     </FieldArray>
   );
