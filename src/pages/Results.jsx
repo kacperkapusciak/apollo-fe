@@ -11,7 +11,7 @@ const TextAnswer = styled.p`
   font-size: 14px;
   margin-bottom: 24px;
 `;
-const TextFooter = styled.p`
+const AnswerCount = styled.p`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.neutral[500]};
   margin-bottom: 24px;
@@ -25,7 +25,7 @@ function Results(props) {
     {results.map((result, rIndex) => ( (result.type !== "text") ? (
           <Card key={rIndex}>
             <TextHeader>{result.title}</TextHeader>
-            <TextFooter>{result.total} odpowiedzi</TextFooter>
+            <AnswerCount>{result.total} odpowiedzi</AnswerCount>
             <Bar
               data={{
                   labels: result.labels,
@@ -64,7 +64,7 @@ function Results(props) {
           </Card>
         ):(<Card key={rIndex}>
           <TextHeader>{result.title}</TextHeader>
-          <TextFooter>{result.total} odpowiedzi</TextFooter>
+          <AnswerCount>{result.total} odpowiedzi</AnswerCount>
           {result.data.map((answer, aIndex) =>
             <TextAnswer>{answer}</TextAnswer>
           )}
