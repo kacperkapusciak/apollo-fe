@@ -44,49 +44,42 @@
   "answer": {},
   "results": [
     {
-    "title": "Pytanie single",
-    "data": {
-      "labels": ["January", "February", "March"],
-      "datasets": [
-        {
-          "backgroundColor": "rgba(75,192,192,1)",
-          "borderColor": "rgba(0,0,0,1)",
-          "borderWidth": 2,
-          "data": [65, 59, 80]
-        }
-      ]
-     },
-     "type": "single"
+      "title": "Pytanie single",
+      "labels": [
+        "January",
+        "February",
+        "March"
+        ],
+        "total": 32,
+        "data": [
+          12,
+          9,
+          11
+        ],
+      "type": "single"
     },
     {
       "title": "Pytanie multi",
-      "data": {
-        "labels": ["Osiem", "Siedem", "Trzy"],
-        "scales": {
-          "yAxes": [{
-            "display": true,
-            "ticks": {
-              "suggestedMin": 0,
-              "beginAtZero": true
-            }
-          }]
-        },
-        "datasets": [
-          {
-            "backgroundColor": "rgba(75,192,192,1)",
-            "borderColor": "rgba(0,0,0,1)",
-            "borderWidth": 2,
-            "data": [8, 8, 10]
-          }
-        ]
-      },
-      "type": "multi"
+      "labels": [
+        "January2",
+        "February2",
+        "March2"
+      ],
+      "total": 94,
+      "data": [
+        55,
+        29,
+        10
+      ],
+      "type": "multu"
     },
     {
       "title": "Pytanie otwarte",
-      "data": {
-        "answers":["Jakaś odpowiedź", "Jeszcze gdy chodziłem do podstawówki, to był tam taki Paweł, i ja jechałem na rowerze, i go spotkałem, i potem jeszcze pojechałem do biedronki na lody, i po drodze do domu wtedy jeszcze, już do domu pojechałem"]
-      },
+      "total": 3,
+      "data": [
+          "Jakaś odpowiedź",
+          "Jeszcze gdy chodziłem do podstawówki, to był tam taki Paweł, i ja jechałem na rowerze, i go spotkałem, i potem jeszcze pojechałem do biedronki na lody, i po drodze do domu wtedy jeszcze, już do domu pojechałem"
+        ],
       "type": "text"
     }
   ]
