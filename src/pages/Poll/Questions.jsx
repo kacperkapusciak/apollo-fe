@@ -87,10 +87,14 @@ const Textarea = styled(Field)`
   padding: 10px 10px 0px 8px;
 `;
 const variants = {
-  invisible: { opacity: 0 , height: 0},
-  fadein: { opacity: 1, height: 240, transition: { duration: 0.1 } }
+  invisible: { opacity: 0 },
+  rolled: { height: 0 },
+  fadein: { opacity: 1, transition: { delay: 0.3, duration: 0.3 } },
+  unroll: { height: 230, transition: { duration: 0.3 } }
 };
 const CardWrapper = styled(motion.div).attrs(() => ({ initial: "invisible", variants: variants }))`
+`;
+const CardWrapper2 = styled(motion.div).attrs(() => ({ initial: "rolled", variants: variants }))`
 `;
 function Questions(props) {
   const { defaultQuestion, values } = props;
@@ -106,6 +110,7 @@ function Questions(props) {
       {questionsHelper => (
         <div>
           {values.questions.map((question, qIndex) => (
+            <CardWrapper2 animate="unroll">
             <CardWrapper animate="fadein">
             <Card key={qIndex}>
               <RemoveQuestion src={CrossIcon} alt='' onClick={questionsHelper.pop}/>
@@ -154,6 +159,7 @@ function Questions(props) {
               )}
             </Card>
             </CardWrapper>
+            </CardWrapper2>
           ))}
           <ButtonWrapper>
             <Button
