@@ -92,9 +92,9 @@ const variants = {
   fadein: { opacity: 1, transition: { delay: 0.3, duration: 0.3 } },
   unroll: { height: 230, transition: { duration: 0.3 } }
 };
-const CardWrapper = styled(motion.div).attrs(() => ({ initial: "invisible", variants: variants }))`
+const CardVisibilityWrapper = styled(motion.div).attrs(() => ({ initial: "invisible", variants: variants }))`
 `;
-const CardWrapper2 = styled(motion.div).attrs(() => ({ initial: "rolled", variants: variants }))`
+const CardUnrollingWrapper = styled(motion.div).attrs(() => ({ initial: "rolled", variants: variants }))`
 `;
 function Questions(props) {
   const { defaultQuestion, values } = props;
@@ -110,8 +110,8 @@ function Questions(props) {
       {questionsHelper => (
         <div>
           {values.questions.map((question, qIndex) => (
-            <CardWrapper2 animate="unroll">
-            <CardWrapper animate="fadein">
+            <CardUnrollingWrapper animate="unroll">
+            <CardVisibilityWrapper animate="fadein">
             <Card key={qIndex}>
               <RemoveQuestion src={CrossIcon} alt='' onClick={questionsHelper.pop}/>
               <InputRow>
@@ -158,8 +158,8 @@ function Questions(props) {
                 </FieldArray>
               )}
             </Card>
-            </CardWrapper>
-            </CardWrapper2>
+            </CardVisibilityWrapper>
+            </CardUnrollingWrapper>
           ))}
           <ButtonWrapper>
             <Button
