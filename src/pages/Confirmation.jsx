@@ -79,7 +79,7 @@ function Confirmation(props) {
 
   useEffect(() => {
     async function loadResults() {
-      const { data } = await axios.get('results');
+      const { data } = await axios.get(`results/${url}`);
       if (data) {
         setResults(data);
       }

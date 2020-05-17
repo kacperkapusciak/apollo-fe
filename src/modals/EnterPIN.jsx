@@ -88,6 +88,7 @@ function EnterPIN(props) {
   const { auth, closeModal } = props;
 
   const location = useLocation();
+  const url = location.pathname.replace(/\//g, '');
 
   const [pin, setPin] = useState(['', '', '', '']);
   const [error, setError] = useState(null);
@@ -98,7 +99,7 @@ function EnterPIN(props) {
     try {
       const payload = {
         pin: parseInt(pin),
-        url: location.pathname.substr(1)
+        url
       };
       const { data } = await axios.post('core/login', payload);
       auth.authenticate();
