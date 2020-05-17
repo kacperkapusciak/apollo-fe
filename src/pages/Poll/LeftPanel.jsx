@@ -52,14 +52,10 @@ const Input = styled(Field)`
   }
 `;
 const variants = {
-  visible: { opacity: 1, transition: { duration: 0.5 } },
-  hidden: { opacity: 0 },
+  open: { opacity: 1, height: 'auto' },
+  collapsed: { opacity: 0, height: 0 }
 };
-const InputWrapper = styled(motion.div).attrs(() => ({
-  initial: "hidden",
-  exit: { opacity: 0, transition: { duration: 0.5 } },
-  variants
-}))`
+const InputWrapper = styled(motion.div).attrs(() => ({ variants }))`
   margin-top: 8px;
 `;
 const DeletePollButton = styled.button`
@@ -187,7 +183,7 @@ function LeftPanel(props) {
         </AlignWrapper>
         <AnimatePresence>
           {sendSummary && (
-            <InputWrapper animate='visible'>
+            <InputWrapper initial="collapsed" animate="open" exit="collapsed">
               <Input type="email" name="settings.email" placeholder="jankowalski@apollo.com"/>
             </InputWrapper>
           )}

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Field, FieldArray } from 'formik';
+import { AnimatePresence, motion } from "framer-motion";
 
 import Button from 'components/Button';
 import Select from 'components/Select';
@@ -9,7 +10,6 @@ import Checkbox from 'components/Checkbox';
 import Radio from 'components/Radio';
 
 import CrossIcon from 'assets/CrossIcon.svg';
-import {motion} from "framer-motion";
 
 const RemoveQuestion = styled.img`
   position: absolute;
@@ -36,6 +36,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  margin-top: 32px;
 `;
 const InputRow = styled.div`
   display: grid;
@@ -52,7 +53,11 @@ const OptionWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const OptionRow = styled.div`
+const variants = {
+  open: { opacity: 1, height: 'auto' },
+  collapsed: { opacity: 0, height: 0 }
+};
+const OptionRow = styled(motion.div).attrs(() => ({ variants: variants }))`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -84,18 +89,11 @@ const Textarea = styled(Field)`
   height: 96px;
   width: 512px;
   resize: none;
-  padding: 10px 10px 0px 8px;
+  padding: 10px 10px 0 8px;
 `;
-const variants = {
-  invisible: { opacity: 0 },
-  rolled: { height: 0 },
-  fadein: { opacity: 1, transition: { delay: 0.3, duration: 0.3 } },
-  unroll: { height: 230, transition: { duration: 0.3 } }
-};
-const CardVisibilityWrapper = styled(motion.div).attrs(() => ({ initial: "invisible", variants: variants }))`
+const CardAnimation = styled(motion.div).attrs(() => ({ variants: variants }))`
 `;
-const CardUnrollingWrapper = styled(motion.div).attrs(() => ({ initial: "rolled", variants: variants }))`
-`;
+
 function Questions(props) {
   const { defaultQuestion, values } = props;
 
@@ -109,58 +107,63 @@ function Questions(props) {
     <FieldArray name="questions">
       {questionsHelper => (
         <div>
-          {values.questions.map((question, qIndex) => (
-            <CardUnrollingWrapper animate="unroll">
-            <CardVisibilityWrapper animate="fadein">
-            <Card key={qIndex}>
-              <RemoveQuestion src={CrossIcon} alt='' onClick={questionsHelper.pop}/>
-              <InputRow>
-                <Input name={`questions.${qIndex}.value`} placeholder="Zadaj pytanie..."/>
-                <Field
-                  name={`questions.${qIndex}.type`}
-                  component={Select}
-                  options={questionTypes}
-                />
-              </InputRow>
-              {question.type === 'text' ? (
-                <Textarea name={`questions.${qIndex}.text`} component="textarea" disabled/>
-              ) : (
-                <FieldArray name={`questions.${qIndex}.options`}>
-                  {optionsHelper => (
-                    <>
-                      <OptionWrapper>
-                        {question.options.map((option, oIndex) => (
-                          <OptionRow key={`question-row-${oIndex}`}>
-                            {question.type === 'multi' ? (
-                              <Checkbox disabled/>
-                            ) : question.type === 'single' ? (
-                              <Radio disabled/>
-                            ) : null}
-                            <OptionInput
-                              name={`questions.${qIndex}.options.${oIndex}`}
-                              key={`question-field-${oIndex}`}
-                              placeholder="Wpisz opcję..."
-                            />
-                            <RemoveOption type="button" onClick={optionsHelper.pop}>-</RemoveOption>
-                          </OptionRow>
-                        ))}
-                      </OptionWrapper>
-                      <AddOption
-                        type="button"
-                        size="sm"
-                        btnType="tertiary"
-                        onClick={() => optionsHelper.push('')}
-                      >
-                        dodaj opcje +
-                      </AddOption>
-                    </>
+          <AnimatePresence>
+            {values.questions.map((question, qIndex) => (
+              <CardAnimation initial="collapsed" animate="open" exit="collapsed" key={`motion-${qIndex}`}>
+                <Card key={qIndex}>
+                  <RemoveQuestion src={CrossIcon} alt='' onClick={questionsHelper.pop}/>
+                  <InputRow>
+                    <Input name={`questions.${qIndex}.value`} placeholder="Zadaj pytanie..."/>
+                    <Field
+                      name={`questions.${qIndex}.type`}
+                      component={Select}
+                      options={questionTypes}
+                    />
+                  </InputRow>
+                  {question.type === 'text' ? (
+                    <Textarea name={`questions.${qIndex}.text`} component="textarea" disabled/>
+                  ) : (
+                    <FieldArray name={`questions.${qIndex}.options`}>
+                      {optionsHelper => (
+                        <>
+                          <OptionWrapper>
+                            <AnimatePresence>
+                              {question.options.map((option, oIndex) => (
+                                <OptionRow
+                                  initial="collapsed"
+                                  animate="open" exit="collapsed"
+                                  key={`question-row-${oIndex}`}
+                                >
+                                  {question.type === 'multi' ? (
+                                    <Checkbox disabled/>
+                                  ) : question.type === 'single' ? (
+                                    <Radio disabled/>
+                                  ) : null}
+                                  <OptionInput
+                                    name={`questions.${qIndex}.options.${oIndex}`}
+                                    key={`question-field-${oIndex}`}
+                                    placeholder="Wpisz opcję..."
+                                  />
+                                  <RemoveOption type="button" onClick={optionsHelper.pop}>-</RemoveOption>
+                                </OptionRow>
+                              ))}
+                            </AnimatePresence>
+                          </OptionWrapper>
+                          <AddOption
+                            type="button"
+                            size="sm"
+                            btnType="tertiary"
+                            onClick={() => optionsHelper.push('')}
+                          >
+                            dodaj opcje +
+                          </AddOption>
+                        </>
+                      )}
+                    </FieldArray>
                   )}
-                </FieldArray>
-              )}
-            </Card>
-            </CardVisibilityWrapper>
-            </CardUnrollingWrapper>
-          ))}
+                </Card>
+              </CardAnimation>
+            ))}
           <ButtonWrapper>
             <Button
               type="button"
@@ -171,6 +174,7 @@ function Questions(props) {
               dodaj pytanie +
             </Button>
           </ButtonWrapper>
+          </AnimatePresence>
         </div>
 
       )}
