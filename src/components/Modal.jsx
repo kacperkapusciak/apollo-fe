@@ -1,6 +1,7 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
 import styled from 'styled-components'
+import {motion} from "framer-motion";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -30,6 +31,16 @@ const ContentWrapper = styled.div`
   width: 512px;
 `;
 
+const variants = {
+  hidden: { opacity: 0, y: -20 },
+  slide_down: { opacity: 1, y: 0, transition: { duration: 0.3 } }
+};
+
+const AnimationWrapper = styled(motion.div).attrs(() => ({ initial: "hidden", variants: variants }))`
+  font-size: 24px;
+  text-align: center;
+`;
+
 function Modal(props) {
   const { children, isOpen, onClose, backdropCloses } = props;
 
@@ -46,9 +57,11 @@ function Modal(props) {
   return createPortal(
     isOpen && (
       <Backdrop onClick={onBackdropClick} >
+        <AnimationWrapper animate="slide_down">
         <ContentWrapper>
           {children && React.cloneElement(children, { closeModal })}
         </ContentWrapper>
+        </AnimationWrapper>
       </Backdrop>
     ),
     document.body,
