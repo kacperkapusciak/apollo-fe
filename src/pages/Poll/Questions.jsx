@@ -54,7 +54,7 @@ const OptionWrapper = styled.div`
   flex-direction: column;
 `;
 const variants = {
-  open: { opacity: 1, height: 'auto' },
+  open: { opacity: 1, height: 'auto', marginBottom: 'auto' },
   collapsed: { opacity: 0, height: 0 }
 };
 const OptionRow = styled(motion.div).attrs(() => ({ variants: variants }))`
