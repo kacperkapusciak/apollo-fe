@@ -13,6 +13,8 @@ import Answers from './Poll/Answers'
 import LeftPanel from './Poll/LeftPanel';
 
 import { withAuth } from 'providers/AuthProvider';
+import Results from "./Results";
+import Button from "../components/Button";
 
 const Layout = styled.div`
   display: grid;
@@ -22,6 +24,16 @@ const Layout = styled.div`
 `;
 const FormStyled = styled(Form)`
   display: flex;
+`;
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: right;
+  width: 100%;
+`;
+const RightPanel = styled.div`
+ display: block;
+ text-align: right;
+
 `;
 
 
@@ -42,6 +54,19 @@ const initialValues = {
     expire: null
   }
 };
+const defaultResult = () => ({
+  id: uuidv4(),
+  value: '',
+  answers: [defaultAnswer()],
+  type: 'multi',
+});
+const defaultAnswer = () => ({
+  id: uuidv4(),
+  value: '',
+  count: 0,
+});
+
+const initialResult = [defaultResult()];
 
 const formatAnswer = values => {
   const { answers } = values;
@@ -62,6 +87,8 @@ const formatAnswer = values => {
 function Poll(props) {
   const { auth } = props;
   const [questions, setQuestions] = useState(initialValues);
+  const [questionPanel, setQuestionPanel] = useState(true);
+  const [results, setResults] = useState(initialResult);
   const history = useHistory();
   const location = useLocation();
 
@@ -73,9 +100,17 @@ function Poll(props) {
         setQuestions(data);
       }
     }
+    async function loadResults() {
+      const { data } = await axios.get('results');
+      if (data) {
+        setResults(data);
+      }
+    }
 
-    loadQuestions()
+    loadQuestions();
+    loadResults();
   }, []);
+
 
   return (
     <>
@@ -90,10 +125,39 @@ function Poll(props) {
             <FormStyled>
               <Layout>
                 <LeftPanel sendSummary={values.settings.sendSummary}/>
-                <Questions
-                  defaultQuestion={defaultQuestion}
-                  values={values}
-                />
+                <RightPanel>
+                {questionPanel ? (
+                  <>
+                    <ButtonWrapper>
+                      <Button
+                        type="button"
+                        size="lg"
+                        btnType="tertiary"
+                        onClick={() => setQuestionPanel(false)}
+                      >
+                        Odpowiedzi >
+                      </Button>
+                    </ButtonWrapper>
+                    <Questions
+                      defaultQuestion={defaultQuestion}
+                      values={values}
+                    />
+                  </>
+                ) :
+                <>
+                  <ButtonWrapper>
+                    <Button
+                      type="button"
+                      size="lg"
+                      btnType="tertiary"
+                      onClick={() => setQuestionPanel(true)}
+                    >
+                      Pytania >
+                    </Button>
+                  </ButtonWrapper>
+                  <Results results={results}/>
+                </>}
+                </RightPanel>
               </Layout>
             </FormStyled>
           )}
