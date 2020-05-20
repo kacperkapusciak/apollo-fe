@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,15 +8,20 @@ import axios from 'axios-instance';
 
 import Navigation from 'components/Navigation';
 import Container from 'components/Container';
-import { useHistory, useLocation } from 'react-router-dom';
+import Button from 'components/Button';
+
 import Questions from './Poll/Questions';
 import Answers from './Poll/Answers'
 import LeftPanel from './Poll/LeftPanel';
+import Results from "./Results";
 
 import { withAuth } from 'providers/AuthProvider';
-import Results from "./Results";
-import Button from "../components/Button";
 
+
+const ContainerStyled = styled(Container)`
+  display: flex;
+  justify-content: flex-end;
+`;
 const Layout = styled.div`
   display: grid;
   grid-template-columns: 200px 768px 200px;
@@ -24,16 +30,6 @@ const Layout = styled.div`
 `;
 const FormStyled = styled(Form)`
   display: flex;
-`;
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: right;
-  width: 100%;
-`;
-const RightPanel = styled.div`
- display: block;
- text-align: right;
-
 `;
 
 
@@ -54,19 +50,6 @@ const initialValues = {
     expire: null
   }
 };
-const defaultResult = () => ({
-  id: uuidv4(),
-  value: '',
-  answers: [defaultAnswer()],
-  type: 'multi',
-});
-const defaultAnswer = () => ({
-  id: uuidv4(),
-  value: '',
-  count: 0,
-});
-
-const initialResult = [defaultResult()];
 
 const formatAnswer = values => {
   const { answers } = values;
@@ -88,7 +71,7 @@ function Poll(props) {
   const { auth } = props;
   const [questions, setQuestions] = useState(initialValues);
   const [questionPanel, setQuestionPanel] = useState(true);
-  const [results, setResults] = useState(initialResult);
+
   const history = useHistory();
   const location = useLocation();
 
@@ -100,15 +83,8 @@ function Poll(props) {
         setQuestions(data);
       }
     }
-    async function loadResults() {
-      const { data } = await axios.get('results');
-      if (data) {
-        setResults(data);
-      }
-    }
 
     loadQuestions();
-    loadResults();
   }, []);
 
 
@@ -116,58 +92,43 @@ function Poll(props) {
     <>
       <Navigation/>
       {auth.isCreator ? (
-        <Formik
-          initialValues={initialValues}
-          onSubmit={values => {
-          }}
-        >
-          {({ values }) => (
-            <FormStyled>
-              <Layout>
-                <LeftPanel sendSummary={values.settings.sendSummary}/>
-                <RightPanel>
-                {questionPanel ? (
-                  <>
-                    <ButtonWrapper>
-                      <Button
-                        type="button"
-                        size="lg"
-                        btnType="tertiary"
-                        onClick={() => setQuestionPanel(false)}
-                      >
-                        Odpowiedzi >
-                      </Button>
-                    </ButtonWrapper>
+        <>
+          <ContainerStyled size="sm">
+            <Button
+              btnType="tertiary"
+              size="sm"
+              onClick={() => setQuestionPanel(!questionPanel)}
+            >
+              {questionPanel ? 'odpowiedzi >' : 'pytania >'}
+            </Button>
+          </ContainerStyled>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={values => {
+            }}
+          >
+            {({ values }) => (
+              <FormStyled>
+                <Layout>
+                  <LeftPanel sendSummary={values.settings.sendSummary}/>
+                  {questionPanel ? (
                     <Questions
                       defaultQuestion={defaultQuestion}
                       values={values}
                     />
-                  </>
-                ) :
-                <>
-                  <ButtonWrapper>
-                    <Button
-                      type="button"
-                      size="lg"
-                      btnType="tertiary"
-                      onClick={() => setQuestionPanel(true)}
-                    >
-                      Pytania >
-                    </Button>
-                  </ButtonWrapper>
-                  <Results results={results}/>
-                </>}
-                </RightPanel>
-              </Layout>
-            </FormStyled>
-          )}
-        </Formik>
+                  ) : (
+                    <Results/>
+                  )}
+                </Layout>
+              </FormStyled>
+            )}
+          </Formik>
+        </>
       ) : (
         <Formik
           initialValues={questions}
           onSubmit={async values => {
             const formattedAnswer = formatAnswer(values);
-            console.log(formattedAnswer);
             await axios.post('answer', formattedAnswer);
             history.push(`${location.pathname}/confirmation`);
           }}

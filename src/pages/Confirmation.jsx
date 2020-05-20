@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Rating from 'react-rating';
-import { v4 as uuidv4 } from 'uuid';
 import { motion } from 'framer-motion';
-
-import axios from 'axios-instance';
 
 import Container from 'components/Container';
 import Button from 'components/Button';
-import Card from 'components/QuestionCard';
 
 import StarOn from 'assets/StarOnIcon.svg';
 import StarOff from 'assets/StarOffIcon.svg';
-import {Bar} from 'react-chartjs-2';
+
 import Results from "./Results";
 
 const Header = styled.h2`
@@ -40,6 +36,9 @@ const OpinionWrapper = styled.div`
   align-items: center;
   margin-bottom: 34px;
 `;
+const ResultsHeader = styled.p`
+  margin-bottom: 8px;
+`;
 
 const variants = {
   visible: { opacity: 1, height: 273 },
@@ -51,39 +50,10 @@ const OpinionSentAlert = styled(motion.div).attrs(() => ({ initial: "visible", v
   text-align: center;
 `;
 
-const defaultResult = () => ({
-  id: uuidv4(),
-  value: '',
-  answers: [defaultAnswer()],
-  type: 'multi',
-});
-
-const defaultAnswer = () => ({
-  id: uuidv4(),
-  value: '',
-  count: 0,
-});
-
-
-const initialValues = [defaultResult()];
-
 function Confirmation(props) {
-
-  const [results, setResults] = useState(initialValues);
   const [rating, setRating] = useState(0);
   const [isOpinionSet, setIsOpinionSet] = useState(false);
   const [isOpinionSubmitted, setIsOpinionSubmitted] = useState(false);
-
-  useEffect(() => {
-    async function loadResults() {
-      const { data } = await axios.get('results');
-      if (data) {
-        setResults(data);
-      }
-    }
-
-    loadResults()
-  }, []);
 
   return (
     <Container size="sm">
@@ -108,7 +78,6 @@ function Confirmation(props) {
               size="lg"
               disabled={!isOpinionSet}
               onClick={() => {
-                console.log(rating);
                 setIsOpinionSubmitted(true);
               }}
             >
@@ -121,10 +90,8 @@ function Confirmation(props) {
           Dziękujemy!
         </OpinionSentAlert>
       )}
-      <div>
-        <p>Odpowiedzi:</p>
-        <Results results={results}/>
-      </div>
+      <ResultsHeader>Odpowiedzi:</ResultsHeader>
+      <Results />
     </Container>
   );
 }

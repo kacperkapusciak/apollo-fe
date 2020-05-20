@@ -1,8 +1,11 @@
-import React from 'react';
-import Card from "../components/QuestionCard";
-import {Bar} from "react-chartjs-2";
-import styled from "styled-components";
-import theme from "../styles/theme";
+import React, { useEffect, useState } from 'react';
+import styled, { withTheme } from 'styled-components';
+import { Bar } from 'react-chartjs-2';
+
+import axios from 'axios-instance';
+
+import Card from 'components/QuestionCard';
+
 
 const TextHeader = styled.p`
   font-size: 18px;
@@ -17,30 +20,60 @@ const AnswerCount = styled.p`
   margin-bottom: 24px;
 `;
 
+function formatResults(data) {
+  const results = [...data];
+
+  for (const result of results) {
+    if (result.type === 'text') continue
+
+    result.labels = [];
+    result.data = [];
+
+    result.answers.forEach(answer => {
+      result.labels.push(answer.value);
+      result.data.push(answer.count);
+    })
+  }
+
+  return results
+}
+
 function Results(props) {
-  const { results } = props
+  const { theme } = props
+  const [results, setResults] = useState();
+
+  useEffect(() => {
+    async function loadResults() {
+      const { data } = await axios.get('results');
+      if (data) {
+        const formattedResults = formatResults(data);
+        setResults(formattedResults);
+      }
+    }
+
+    loadResults()
+  }, []);
+
+  if (!results)
+    return null
 
   return (
-    <>
-    {results.map((result, rIndex) => ( (result.type !== "text") ? (
+    <div>
+      {results.map((result, rIndex) => ((result.type !== "text") ? (
           <Card key={rIndex}>
             <TextHeader>{result.title}</TextHeader>
             <AnswerCount>{result.total} odpowiedzi</AnswerCount>
             <Bar
               data={{
-                  labels: result.labels,
-                  datasets: [
-                    {
-                      backgroundColor: theme.colors.primary[400],
-                      data: result.data
-                    }
-                  ]
+                labels: result.labels,
+                datasets: [
+                  {
+                    backgroundColor: theme.colors.primary[400],
+                    data: result.data
+                  }
+                ]
               }}
               options={{
-                title:{
-                  display:true,
-                  fontSize:20
-                },
                 scales: {
                   xAxes: [{
                     gridLines: {
@@ -56,22 +89,22 @@ function Results(props) {
                     }
                   }]
                 },
-                legend:{
-                  display:false
+                legend: {
+                  display: false
                 }
               }}
             />
           </Card>
-        ):(<Card key={rIndex}>
-          <TextHeader>{result.title}</TextHeader>
-          <AnswerCount>{result.total} odpowiedzi</AnswerCount>
-          {result.data.map((answer, aIndex) =>
-            <TextAnswer>{answer}</TextAnswer>
-          )}
-        </Card>))
+        ) : (
+          <Card key={rIndex}>
+            <TextHeader>{result.title}</TextHeader>
+            <AnswerCount>{result.total} odpowiedzi</AnswerCount>
+            {result.answers.map((answer, index) => <TextAnswer key={`${answer}-${index}`}>{answer}</TextAnswer>)}
+          </Card>
+        ))
       )}
-      </>
+    </div>
   );
 }
 
-export default Results;
+export default withTheme(Results);
