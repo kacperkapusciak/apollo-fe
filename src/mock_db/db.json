@@ -44,38 +44,47 @@
   "answer": {},
   "results": [
     {
-      "id": "f9674ec9-561d-269b-9a4d-94837ff81acc",
-      "value": "first result",
+      "title": "To jest pytanie z wielokrotnym wyborem",
+      "total": 7,
       "answers": [
         {
-          "id": "f9674ec4-561d-269b-9a4d-94837ff81acc",
-          "value": "answer A",
-          "count": 3
+          "value": "Opcja pierwsza",
+          "count": 4
         },
         {
-          "id": "f9674ec4-531d-269b-9a4d-94837ff81acc",
-          "value": "answer B",
-          "count": 4
+          "value": "Opcja druga",
+          "count": 3
         }
       ],
       "type": "multi"
     },
     {
-      "id": "f9674rc9-561d-269b-9a4d-94837ff81acc",
-      "value": "second result",
+      "title": "Pytanie",
+      "total": 16,
       "answers": [
         {
-          "id": "f967hec4-561d-269b-9a4d-94837ff81acc",
-          "value": "answer C",
+          "value": "owca",
+          "count": 7
+        },
+        {
+          "value": "lama",
           "count": 5
         },
         {
-          "id": "f9674ec4-531d-269b-9a4d-94837fk81acc",
-          "value": "answer D",
-          "count": 6
+          "value": "alpaka",
+          "count": 4
         }
       ],
-      "type": "multi"
+      "type": "single"
+    },
+    {
+      "title": "Pytanie z odpowiedzią tekstową",
+      "total": 2,
+      "answers": [
+        "Jakaś odpowiedź",
+        "Jeszcze gdy chodziłem do podstawówki, to był tam taki Paweł, i ja jechałem na rowerze, i go spotkałem, i potem jeszcze pojechałem do biedronki na lody, i po drodze do domu wtedy jeszcze, już do domu pojechałem"
+      ],
+      "type": "text"
     }
   ]
 }
