@@ -58,8 +58,8 @@ function SharePoll(props) {
       <IconField><Icon src={ShareIcon}/></IconField>
       <Header>Udostępnij ankietę innym</Header>
       <Content>Aby udostępnić ankietę po prostu skopiuj i prześlij ten link:</Content>
-      <URLfield>{location.pathname}</URLfield>
-      <Footer>Psst! Nie zapomnij przekazać także kodu PIN: 2137</Footer>
+      <URLfield>{`https://kacperkapusciak.github.io/apollo-fe${location.pathname}`}</URLfield>
+      <Footer>Psst! Nie zapomnij przekazać także kodu PIN.</Footer>
       <ButtonWrapper>
         <Button
           btnType="primary"

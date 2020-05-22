@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { ModalProvider } from 'providers/ModalProvider';
 import { withAuth } from 'providers/AuthProvider';
