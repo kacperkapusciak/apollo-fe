@@ -43,7 +43,7 @@ function Landing(props) {
   let history = useHistory();
 
   const createNewPoll = async () => {
-    const { data } = await axios.get('init');
+    const { data } = await axios.get('core/new');
     if (data) {
       auth.authenticate();
       auth.setIsCreator(true);

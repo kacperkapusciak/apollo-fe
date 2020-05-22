@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Rating from 'react-rating';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+
+import axios from 'axios-instance';
 
 import Container from 'components/Container';
 import Button from 'components/Button';
@@ -55,6 +58,19 @@ function Confirmation(props) {
   const [isOpinionSet, setIsOpinionSet] = useState(false);
   const [isOpinionSubmitted, setIsOpinionSubmitted] = useState(false);
 
+  let location = useLocation();
+  const url = location.pathname.match(/[^/](.*)[/]/)[0].slice(0, -1);
+
+  async function submitRating() {
+    const result = await axios.post('rating', {
+      url,
+      rating
+    });
+    if (result.status === 200) {
+      setIsOpinionSubmitted(true);
+    }
+  }
+
   return (
     <Container size="sm">
       <Header>Twoje odpowiedzi zostały przekazane</Header>
@@ -77,9 +93,7 @@ function Confirmation(props) {
               btnType="secondary"
               size="lg"
               disabled={!isOpinionSet}
-              onClick={() => {
-                setIsOpinionSubmitted(true);
-              }}
+              onClick={submitRating}
             >
               Prześlij
             </Button>
@@ -91,7 +105,7 @@ function Confirmation(props) {
         </OpinionSentAlert>
       )}
       <ResultsHeader>Odpowiedzi:</ResultsHeader>
-      <Results />
+      <Results url={url}/>
     </Container>
   );
 }

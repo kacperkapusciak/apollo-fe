@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import styled, { withTheme } from 'styled-components';
 import { Bar } from 'react-chartjs-2';
 
@@ -39,19 +40,32 @@ function formatResults(data) {
 }
 
 function Results(props) {
-  const { theme } = props
+  const { theme, url } = props;
   const [results, setResults] = useState();
 
   useEffect(() => {
     async function loadResults() {
-      const { data } = await axios.get('results');
+      const { data } = await axios.get(`results/${url}`);
       if (data) {
         const formattedResults = formatResults(data);
         setResults(formattedResults);
       }
     }
 
-    loadResults()
+    loadResults();
+  }, []);
+
+  // results live-update every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const { data } = await axios.get(`results/${url}`);
+      if (data) {
+        const formattedResults = formatResults(data);
+        if (!_.isEqual(formattedResults, results))
+          setResults(formattedResults);
+      }
+    }, 4000);
+    return () => clearInterval(interval);
   }, []);
 
   if (!results)

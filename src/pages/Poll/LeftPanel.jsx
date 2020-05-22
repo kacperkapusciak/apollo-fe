@@ -89,14 +89,15 @@ const PINComponent = styled.div`
 
 
 function LeftPanel(props) {
-  const { modal, sendSummary } = props;
+  const { modal, sendSummary, url } = props;
   const [PIN, setPIN] = useState({ user: null, creator: null });
 
   useEffect(() => {
     async function getPIN() {
-      const { data } = await axios.get('init');
+      const { data } = await axios.get(`poll/${url}`);
       if (data) {
-        const { pinUser, pinCreator } = data;
+        const { core } = data;
+        const { pinUser, pinCreator } = core;
         setPIN({ user: pinUser, creator: pinCreator });
       }
     }

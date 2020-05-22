@@ -36,7 +36,6 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 32px;
 `;
 const InputRow = styled.div`
   display: grid;
@@ -54,7 +53,7 @@ const OptionWrapper = styled.div`
   flex-direction: column;
 `;
 const variants = {
-  open: { opacity: 1, height: 'auto', marginBottom: 'auto' },
+  open: { opacity: 1, height: 'auto' },
   collapsed: { opacity: 0, height: 0 }
 };
 const OptionRow = styled(motion.div).attrs(() => ({ variants: variants }))`
@@ -96,6 +95,7 @@ const CardAnimation = styled(motion.div).attrs(() => ({ variants: variants }))`
 
 function Questions(props) {
   const { defaultQuestion, values } = props;
+  const { questions } = values;
 
   const questionTypes = [
     { value: 'single', label: 'jednokrotny wybór' },
@@ -108,10 +108,21 @@ function Questions(props) {
       {questionsHelper => (
         <div>
           <AnimatePresence>
-            {values.questions.map((question, qIndex) => (
-              <CardAnimation initial="collapsed" animate="open" exit="collapsed" key={`motion-${qIndex}`}>
+            {questions.map((question, qIndex) => (
+              <CardAnimation
+                initial="collapsed"
+                animate="open"
+                exit="collapsed"
+                key={`motion-${qIndex}`}
+                style={{ marginBottom: 'auto' }}
+              >
                 <Card key={qIndex}>
-                  <RemoveQuestion src={CrossIcon} alt='' onClick={questionsHelper.pop}/>
+                  <RemoveQuestion src={CrossIcon} alt='' onClick={() => {
+                    //FIXME: I have no idea why poll isn't updating on .pop(). This fixes it for now
+                    questionsHelper.pop();
+                    questionsHelper.push('');
+                    questionsHelper.pop()
+                  }}/>
                   <InputRow>
                     <Input name={`questions.${qIndex}.value`} placeholder="Zadaj pytanie..."/>
                     <Field
@@ -144,7 +155,11 @@ function Questions(props) {
                                     key={`question-field-${oIndex}`}
                                     placeholder="Wpisz opcję..."
                                   />
-                                  <RemoveOption type="button" onClick={optionsHelper.pop}>-</RemoveOption>
+                                  <RemoveOption type="button" onClick={() => {
+                                    //FIXME: xD
+                                    optionsHelper.pop();
+                                    optionsHelper.push('');
+                                    optionsHelper.pop()}}>-</RemoveOption>
                                 </OptionRow>
                               ))}
                             </AnimatePresence>
@@ -176,7 +191,6 @@ function Questions(props) {
           </ButtonWrapper>
           </AnimatePresence>
         </div>
-
       )}
     </FieldArray>
   );
