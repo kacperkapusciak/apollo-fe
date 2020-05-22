@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Rating from 'react-rating';
-import { v4 as uuidv4 } from 'uuid';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import axios from 'axios-instance';
 
 import Container from 'components/Container';
 import Button from 'components/Button';
-import Card from 'components/QuestionCard';
 
 import StarOn from 'assets/StarOnIcon.svg';
 import StarOff from 'assets/StarOffIcon.svg';
+
+import Results from "./Results";
 
 const Header = styled.h2`
   font-weight: normal;
@@ -39,7 +39,9 @@ const OpinionWrapper = styled.div`
   align-items: center;
   margin-bottom: 34px;
 `;
-
+const ResultsHeader = styled.p`
+  margin-bottom: 8px;
+`;
 
 const variants = {
   visible: { opacity: 1, height: 273 },
@@ -51,42 +53,13 @@ const OpinionSentAlert = styled(motion.div).attrs(() => ({ initial: "visible", v
   text-align: center;
 `;
 
-const defaultResult = () => ({
-  id: uuidv4(),
-  value: '',
-  answers: [defaultAnswer()],
-  type: 'multi',
-});
-
-const defaultAnswer = () => ({
-  id: uuidv4(),
-  value: '',
-  count: 0,
-});
-
-
-const initialValues = [defaultResult()];
-
 function Confirmation(props) {
-
-  const [results, setResults] = useState(initialValues);
   const [rating, setRating] = useState(0);
   const [isOpinionSet, setIsOpinionSet] = useState(false);
   const [isOpinionSubmitted, setIsOpinionSubmitted] = useState(false);
 
   let location = useLocation();
   const url = location.pathname.match(/[^/](.*)[/]/)[0].slice(0, -1);
-
-  useEffect(() => {
-    async function loadResults() {
-      const { data } = await axios.get(`results/${url}`);
-      if (data) {
-        setResults(data);
-      }
-    }
-
-    loadResults()
-  }, []);
 
   async function submitRating() {
     const result = await axios.post('rating', {
@@ -131,20 +104,8 @@ function Confirmation(props) {
           Dziękujemy!
         </OpinionSentAlert>
       )}
-      <div>
-        <p>Odpowiedzi:</p>
-        {results.map((result, rIndex) => (
-          <Card key={rIndex}>
-            {result.value}
-            {result.answers.map((answer, aIndex) => (
-              <>
-                <br/>
-                {answer.value} : {answer.count}
-              </>
-            ))}
-          </Card>
-        ))}
-      </div>
+      <ResultsHeader>Odpowiedzi:</ResultsHeader>
+      <Results />
     </Container>
   );
 }

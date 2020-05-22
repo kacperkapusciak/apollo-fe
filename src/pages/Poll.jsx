@@ -2,20 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Form, Formik } from 'formik';
-import { v4 as uuidv4 } from 'uuid';
 
 import axios from 'axios-instance';
 
 import Navigation from 'components/Navigation';
 import Container from 'components/Container';
+import Button from 'components/Button';
 import AutoSave from 'components/AutoSave';
 
 import Questions from './Poll/Questions';
 import Answers from './Poll/Answers'
 import LeftPanel from './Poll/LeftPanel';
+import Results from "./Results";
 
 import { withAuth } from 'providers/AuthProvider';
 
+
+const ContainerStyled = styled(Container)`
+  display: flex;
+  justify-content: flex-end;
+`;
 const Layout = styled.div`
   display: grid;
   grid-template-columns: 200px 768px 200px;
@@ -70,6 +76,8 @@ const formatAnswer = values => {
 function Poll(props) {
   const { auth } = props;
   const [questions, setQuestions] = useState(initialValues);
+  const [questionPanel, setQuestionPanel] = useState(true);
+
   const history = useHistory();
   const location = useLocation();
 
@@ -84,35 +92,50 @@ function Poll(props) {
       }
     }
 
-    loadQuestions()
+    loadQuestions();
   }, []);
 
   return (
     <>
       <Navigation/>
       {auth.isCreator ? (
-        <Formik
-          initialValues={questions || initialValues}
-          onSubmit={async (values, {setSubmitting} )=> {
-            values.url = url;
-            await axios.put('poll', values);
-            setSubmitting(false);
-          }}
-          enableReinitialize
-        >
-          {({ values }) => (
-            <FormStyled>
-              <AutoSave />
-              <Layout>
-                <LeftPanel sendSummary={values.settings.sendSummary} url={url}/>
-                <Questions
-                  defaultQuestion={defaultQuestion}
-                  values={values}
-                />
-              </Layout>
-            </FormStyled>
-          )}
-        </Formik>
+        <>
+          <ContainerStyled size="sm">
+            <Button
+              btnType="tertiary"
+              size="sm"
+              onClick={() => setQuestionPanel(!questionPanel)}
+            >
+              {questionPanel ? 'odpowiedzi >' : 'pytania >'}
+            </Button>
+          </ContainerStyled>
+          <Formik
+            initialValues={questions || initialValues}
+            onSubmit={async (values, {setSubmitting} )=> {
+              values.url = url;
+              await axios.put('poll', values);
+              setSubmitting(false);
+            }}
+            enableReinitialize
+          >
+            {({ values }) => (
+              <FormStyled>
+                <AutoSave />
+                <Layout>
+                  <LeftPanel sendSummary={values.settings.sendSummary} url={url}/>
+                  {questionPanel ? (
+                    <Questions
+                      defaultQuestion={defaultQuestion}
+                      values={values}
+                    />
+                  ) : (
+                    <Results/>
+                  )}
+                </Layout>
+              </FormStyled>
+            )}
+          </Formik>
+        </>
       ) : (
         <Formik
           initialValues={questions || initialValues}
