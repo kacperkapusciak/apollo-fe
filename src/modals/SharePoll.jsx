@@ -44,9 +44,10 @@ const URLfield = styled.div`
   margin: 40px auto;
   border: 2px solid ${({ theme }) => theme.colors.neutral[200]};
   border-radius: 10px;
-  width: 90%;
   font-size: 18px;
   color: ${({ theme }) => theme.colors.neutral[700]};
+  max-width: min-content;
+  white-space: nowrap;
 `;
 
 function SharePoll(props) {
@@ -58,7 +59,7 @@ function SharePoll(props) {
       <IconField><Icon src={ShareIcon}/></IconField>
       <Header>Udostępnij ankietę innym</Header>
       <Content>Aby udostępnić ankietę po prostu skopiuj i prześlij ten link:</Content>
-      <URLfield>{`https://kacperkapusciak.github.io/apollo-fe${location.pathname}`}</URLfield>
+      <URLfield>{`kacperkapusciak.github.io/apollo-fe/#${location.pathname}`}</URLfield>
       <Footer>Psst! Nie zapomnij przekazać także kodu PIN.</Footer>
       <ButtonWrapper>
         <Button
