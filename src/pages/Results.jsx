@@ -39,19 +39,19 @@ function formatResults(data) {
 }
 
 function Results(props) {
-  const { theme } = props
+  const { theme, url } = props;
   const [results, setResults] = useState();
 
   useEffect(() => {
     async function loadResults() {
-      const { data } = await axios.get('results');
+      const { data } = await axios.get(`results/${url}`);
       if (data) {
         const formattedResults = formatResults(data);
         setResults(formattedResults);
       }
     }
 
-    loadResults()
+    loadResults();
   }, []);
 
   if (!results)

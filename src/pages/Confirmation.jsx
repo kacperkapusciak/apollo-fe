@@ -105,7 +105,7 @@ function Confirmation(props) {
         </OpinionSentAlert>
       )}
       <ResultsHeader>Odpowiedzi:</ResultsHeader>
-      <Results />
+      <Results url={url}/>
     </Container>
   );
 }

@@ -129,7 +129,7 @@ function Poll(props) {
                       values={values}
                     />
                   ) : (
-                    <Results/>
+                    <Results url={url}/>
                   )}
                 </Layout>
               </FormStyled>

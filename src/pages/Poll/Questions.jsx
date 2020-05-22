@@ -53,7 +53,7 @@ const OptionWrapper = styled.div`
   flex-direction: column;
 `;
 const variants = {
-  open: { opacity: 1, height: 'auto', marginBottom: 'auto' },
+  open: { opacity: 1, height: 'auto' },
   collapsed: { opacity: 0, height: 0 }
 };
 const OptionRow = styled(motion.div).attrs(() => ({ variants: variants }))`
@@ -109,7 +109,13 @@ function Questions(props) {
         <div>
           <AnimatePresence>
             {questions.map((question, qIndex) => (
-              <CardAnimation initial="collapsed" animate="open" exit="collapsed" key={`motion-${qIndex}`}>
+              <CardAnimation
+                initial="collapsed"
+                animate="open"
+                exit="collapsed"
+                key={`motion-${qIndex}`}
+                style={{ marginBottom: 'auto' }}
+              >
                 <Card key={qIndex}>
                   <RemoveQuestion src={CrossIcon} alt='' onClick={() => {
                     //FIXME: I have no idea why poll isn't updating on .pop(). This fixes it for now
