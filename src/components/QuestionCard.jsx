@@ -9,10 +9,6 @@ const QuestionCard = styled.div`
   border: 1px solid transparent;
   border-radius: 16px;
   box-shadow: ${({ theme }) => theme.shadow};
-  
-  &:last-child {
-    margin-bottom: 24px;
-  }
 `;
 
 export default QuestionCard;

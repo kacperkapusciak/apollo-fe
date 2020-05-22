@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Container from 'components/Container';
@@ -7,6 +8,7 @@ import SharePoll from 'modals/SharePoll';
 
 import logo from 'assets/apollo_nav.png'
 
+import { withAuth } from 'providers/AuthProvider';
 import { withModal } from 'providers/ModalProvider';
 
 const Wrapper = styled.nav`
@@ -22,33 +24,36 @@ const Align = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+export const Logo = styled.img`
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 function Navigation(props) {
-  const { isCreator, modal } = props;
+  const { auth, modal } = props;
+  const history = useHistory();
 
   return (
     <Wrapper>
       <Container size='lg'>
-        {isCreator ? (
+        {auth.isCreator ? (
           <Align>
-            <img src={logo} alt='' />
-            <div>
-              <span>2137</span>
-              <Button
-                btnType="secondary"
-                size="lg"
-                onClick={() => modal.open(<SharePoll/>)}
-              >
-                udostępnij
-              </Button>
-            </div>
+            <Logo src={logo} alt='' onClick={() => history.push('/')} />
+            <Button
+              btnType="secondary"
+              size="lg"
+              onClick={() => modal.open(<SharePoll/>)}
+            >
+              udostępnij
+            </Button>
           </Align>
         ) : (
-          <img src={logo} alt='' />
+          <Logo src={logo} alt='' onClick={() => history.push('/')} />
         )}
       </Container>
     </Wrapper>
   );
 }
 
-export default withModal(Navigation);
+export default withAuth(withModal(Navigation));
