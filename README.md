@@ -1,8 +1,30 @@
 # apollo-fe
 
 ## Prerequisites
-You need to have `yarn` and `Node` installed on your machine.
+You need to have `Node.js` and `yarn` installed on your machine.
+Also bash-like command line is needed to run this project so default Linux and MacOS terminal is preferred. 
+
+[Download Node.js from here](https://nodejs.org/en/)
+
+and then install `yarn` using `npm`: 
+```bash
+npm install -g yarn
+```
+
+`npm` comes with `Node.js`.
 <hr>
+
+## Installation process
+Download and unzip code from this repository. Then `cd` into the newly created directory and run:
+
+```bash
+yarn install
+yarn start
+```
+
+Application should open in your default browser on port 3000.
+
+## Available scripts
 
 ### `yarn install`
 
