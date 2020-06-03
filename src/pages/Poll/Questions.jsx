@@ -90,8 +90,6 @@ const Textarea = styled(Field)`
   resize: none;
   padding: 10px 10px 0 8px;
 `;
-const CardAnimation = styled(motion.div).attrs(() => ({ variants: variants }))`
-`;
 
 function Questions(props) {
   const { defaultQuestion, values } = props;
@@ -107,78 +105,70 @@ function Questions(props) {
     <FieldArray name="questions">
       {questionsHelper => (
         <div>
-          <AnimatePresence>
-            {questions.map((question, qIndex) => (
-              <CardAnimation
-                initial="collapsed"
-                animate="open"
-                exit="collapsed"
-                key={`motion-${qIndex}`}
-                style={{ marginBottom: 'auto' }}
-              >
-                <Card key={qIndex}>
-                  <RemoveQuestion src={CrossIcon} alt='' onClick={() => {
-                    //FIXME: I have no idea why poll isn't updating on .pop(). This fixes it for now
-                    questionsHelper.pop();
-                    questionsHelper.push('');
-                    questionsHelper.pop()
-                  }}/>
-                  <InputRow>
-                    <Input name={`questions.${qIndex}.value`} placeholder="Zadaj pytanie..."/>
-                    <Field
-                      name={`questions.${qIndex}.type`}
-                      component={Select}
-                      options={questionTypes}
-                    />
-                  </InputRow>
-                  {question.type === 'text' ? (
-                    <Textarea name={`questions.${qIndex}.text`} component="textarea" disabled/>
-                  ) : (
-                    <FieldArray name={`questions.${qIndex}.options`}>
-                      {optionsHelper => (
-                        <>
-                          <OptionWrapper>
-                            <AnimatePresence>
-                              {question.options.map((option, oIndex) => (
-                                <OptionRow
-                                  initial="collapsed"
-                                  animate="open" exit="collapsed"
-                                  key={`question-row-${oIndex}`}
-                                >
-                                  {question.type === 'multi' ? (
-                                    <Checkbox disabled/>
-                                  ) : question.type === 'single' ? (
-                                    <Radio disabled/>
-                                  ) : null}
-                                  <OptionInput
-                                    name={`questions.${qIndex}.options.${oIndex}`}
-                                    key={`question-field-${oIndex}`}
-                                    placeholder="Wpisz opcję..."
-                                  />
-                                  <RemoveOption type="button" onClick={() => {
-                                    //FIXME: xD
-                                    optionsHelper.pop();
-                                    optionsHelper.push('');
-                                    optionsHelper.pop()}}>-</RemoveOption>
-                                </OptionRow>
-                              ))}
-                            </AnimatePresence>
-                          </OptionWrapper>
-                          <AddOption
-                            type="button"
-                            size="sm"
-                            btnType="tertiary"
-                            onClick={() => optionsHelper.push('')}
-                          >
-                            dodaj opcje +
-                          </AddOption>
-                        </>
-                      )}
-                    </FieldArray>
+          {questions.map((question, qIndex) => (
+            <Card key={qIndex}>
+              <RemoveQuestion src={CrossIcon} alt='' onClick={() => {
+                //FIXME: I have no idea why poll isn't updating on .pop(). This fixes it for now
+                questionsHelper.pop();
+                questionsHelper.push('');
+                questionsHelper.pop()
+              }}/>
+              <InputRow>
+                <Input name={`questions.${qIndex}.value`} placeholder="Zadaj pytanie..."/>
+                <Field
+                  name={`questions.${qIndex}.type`}
+                  component={Select}
+                  options={questionTypes}
+                />
+              </InputRow>
+              {question.type === 'text' ? (
+                <Textarea name={`questions.${qIndex}.text`} component="textarea" disabled/>
+              ) : (
+                <FieldArray name={`questions.${qIndex}.options`}>
+                  {optionsHelper => (
+                    <>
+                      <OptionWrapper>
+                        <AnimatePresence>
+                          {question.options.map((option, oIndex) => (
+                            <OptionRow
+                              initial="collapsed"
+                              animate="open" exit="collapsed"
+                              key={`question-row-${oIndex}`}
+                            >
+                              {question.type === 'multi' ? (
+                                <Checkbox disabled/>
+                              ) : question.type === 'single' ? (
+                                <Radio disabled/>
+                              ) : null}
+                              <OptionInput
+                                name={`questions.${qIndex}.options.${oIndex}`}
+                                key={`question-field-${oIndex}`}
+                                placeholder="Wpisz opcję..."
+                              />
+                              <RemoveOption type="button" onClick={() => {
+                                //FIXME: xD
+                                optionsHelper.pop();
+                                optionsHelper.push('');
+                                optionsHelper.pop()
+                              }}>-</RemoveOption>
+                            </OptionRow>
+                          ))}
+                        </AnimatePresence>
+                      </OptionWrapper>
+                      <AddOption
+                        type="button"
+                        size="sm"
+                        btnType="tertiary"
+                        onClick={() => optionsHelper.push('')}
+                      >
+                        dodaj opcje +
+                      </AddOption>
+                    </>
                   )}
-                </Card>
-              </CardAnimation>
-            ))}
+                </FieldArray>
+              )}
+            </Card>
+          ))}
           <ButtonWrapper>
             <Button
               type="button"
@@ -189,7 +179,6 @@ function Questions(props) {
               dodaj pytanie +
             </Button>
           </ButtonWrapper>
-          </AnimatePresence>
         </div>
       )}
     </FieldArray>

@@ -31,8 +31,7 @@ const ContentWrapper = styled(motion.div).attrs(() => ({ initial: "hidden", vari
   box-shadow: ${({ theme }) => theme.shadow};
   padding: 32px;
   min-height: 190px;
-  max-height: 80vh;
-  width: 512px;
+  max-height: min-content;
 `;
 
 function Modal(props) {
