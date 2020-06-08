@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7d23394774a8836c2d73fee132ca400f",
+    "revision": "93d25786d93c9ad35630d7f1e38fac09",
     "url": "/apollo-fe/index.html"
   },
   {
@@ -52,8 +52,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/apollo-fe/static/js/9.71b5ff8c.chunk.js"
   },
   {
-    "revision": "def9e7357eda9d421858",
-    "url": "/apollo-fe/static/js/main.a7e146c9.chunk.js"
+    "revision": "20ab5779502356eff04e",
+    "url": "/apollo-fe/static/js/main.d733b02f.chunk.js"
   },
   {
     "revision": "ad92a65d26767e824999",
